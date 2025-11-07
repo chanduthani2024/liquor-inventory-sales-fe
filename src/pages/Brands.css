@@ -1,0 +1,455 @@
+/* Brands page specific styles */
+.brands-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.brands-header-left h1 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.brands-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brands-subtitle {
+  margin: 0;
+  color: #6b7280;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.add-brand-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
+}
+
+.add-brand-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(59, 130, 246, 0.35);
+}
+
+.add-brand-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.brand-form-card {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  margin-bottom: 2rem;
+}
+
+.brand-form-title {
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 0.5rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: flex-end;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+}
+
+.btn-cancel {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: #4b5563;
+  transform: translateY(-1px);
+}
+
+.brands-table-card {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.brands-table-container {
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+  /* Custom scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.brands-table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.brands-table-container::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.brands-table-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.brands-table-container::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.brands-table-title {
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.brands-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.8rem; /* Smaller font for more space */
+  table-layout: fixed; /* Fixed layout for better control */
+}
+
+.brands-table th,
+.brands-table td {
+  padding: 0.6rem 0.3rem; /* Further reduced padding for better fit */
+  text-align: center; /* Center align for better space usage */
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle;
+  overflow: visible; /* Changed to visible for inline editing */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Override for brand name column to allow wrapping */
+.brands-table td:nth-child(1) {
+  white-space: normal !important;
+  height: auto;
+  min-height: 60px;
+  padding-left: 0.5rem !important;
+  padding-right: 0.2rem !important;
+}
+
+.brands-table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.75rem; /* Smaller header font */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+/* Column width controls for better fit - Reduced gap between Brand Name and D column */
+.brands-table th:nth-child(1), .brands-table td:nth-child(1) { width: 15%; min-width: 130px; } /* Brand Name - Reduced width */
+.brands-table th:nth-child(2), .brands-table td:nth-child(2) { width: 9%; }  /* D (90ml) */
+.brands-table th:nth-child(3), .brands-table td:nth-child(3) { width: 9%; }  /* N (180ml) */
+.brands-table th:nth-child(4), .brands-table td:nth-child(4) { width: 9%; }  /* 330ml */
+.brands-table th:nth-child(5), .brands-table td:nth-child(5) { width: 9%; }  /* P (375ml) */
+.brands-table th:nth-child(6), .brands-table td:nth-child(6) { width: 9%; }  /* 500ml */
+.brands-table th:nth-child(7), .brands-table td:nth-child(7) { width: 9%; }  /* 650ml */
+.brands-table th:nth-child(8), .brands-table td:nth-child(8) { width: 9%; }  /* Q (750ml) */
+.brands-table th:nth-child(9), .brands-table td:nth-child(9) { width: 8%; }  /* 1L */
+.brands-table th:nth-child(10), .brands-table td:nth-child(10) { width: 8%; } /* 2L */
+.brands-table th:nth-child(11), .brands-table td:nth-child(11) { width: 10%; } /* Actions */
+
+.brands-table tbody tr:hover {
+  background-color: #f9fafb;
+  transition: background-color 0.2s ease;
+}
+
+.brand-name {
+  font-weight: 600;
+  color: #1f2937;
+  text-align: left !important; /* Keep brand name left aligned */
+  padding-left: 0.5rem !important; /* Reduced left padding */
+  padding-right: 0.2rem !important; /* Reduced right padding */
+  white-space: normal !important; /* Allow text wrapping */
+  word-wrap: break-word;
+  line-height: 1.3;
+  max-width: 130px; /* Reduced max width */
+}
+
+.price-cell {
+  color: #059669;
+  font-weight: 500;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.2rem !important;
+  text-align: center;
+  vertical-align: middle;
+  min-width: 80px;
+}
+
+.alcohol-type-cell {
+  padding: 0.5rem !important;
+  text-align: center !important;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+.btn-edit {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.6rem; /* Smaller buttons */
+  border-radius: 0.25rem;
+  font-size: 0.75rem; /* Smaller font */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-edit:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.6rem; /* Smaller buttons */
+  border-radius: 0.25rem;
+  font-size: 0.75rem; /* Smaller font */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.no-brands-message {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 2rem;
+}
+
+/* Custom confirmation toast styles */
+.confirmation-toast {
+  background: #ffffff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid #e5e7eb !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: #1f2937 !important;
+  max-width: 400px !important;
+}
+
+.confirmation-content {
+  padding: 1.5rem !important;
+  background: #ffffff !important;
+  border-radius: 8px !important;
+}
+
+.confirmation-title {
+  color: #1f2937 !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  margin: 0 0 0.5rem 0 !important;
+  background: transparent !important;
+}
+
+.confirmation-message {
+  color: #6b7280 !important;
+  font-size: 0.9rem !important;
+  margin: 0 0 1.5rem 0 !important;
+  line-height: 1.4 !important;
+  background: transparent !important;
+}
+
+.confirmation-actions {
+  display: flex !important;
+  gap: 0.75rem !important;
+  justify-content: flex-end !important;
+  background: transparent !important;
+}
+
+.confirmation-btn {
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.375rem !important;
+  border: none !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.confirmation-btn-cancel {
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+}
+
+.confirmation-btn-cancel:hover {
+  background: #e5e7eb !important;
+  color: #374151 !important;
+}
+
+.confirmation-btn-delete {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+.confirmation-btn-delete:hover {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .brands-table {
+    font-size: 0.75rem;
+  }
+  
+  .brands-table th,
+  .brands-table td {
+    padding: 0.6rem 0.3rem;
+  }
+  
+  .brands-table th {
+    font-size: 0.7rem;
+  }
+  
+  .btn-edit,
+  .btn-delete {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .brands-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .brands-header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .btn-submit,
+  .btn-cancel {
+    width: 100%;
+  }
+  
+  .brands-table-card {
+    padding: 1rem;
+  }
+  
+  .brands-table {
+    font-size: 0.7rem;
+    min-width: 900px; /* Increased minimum width for brand name wrapping */
+  }
+  
+  .brands-table th,
+  .brands-table td {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .brands-table th {
+    font-size: 0.65rem;
+  }
+  
+  .btn-edit,
+  .btn-delete {
+    padding: 0.25rem 0.4rem;
+    font-size: 0.65rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  
+  .confirmation-toast-actions {
+    flex-direction: column;
+  }
+  
+  .confirmation-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .brands-table-card {
+    padding: 0.75rem;
+  }
+  
+  .brands-table {
+    font-size: 0.65rem;
+    min-width: 800px; /* Increased minimum width for brand name wrapping */
+  }
+  
+  .brands-table th,
+  .brands-table td {
+    padding: 0.4rem 0.2rem;
+  }
+  
+  .btn-edit,
+  .btn-delete {
+    padding: 0.2rem 0.3rem;
+    font-size: 0.6rem;
+  }
+}

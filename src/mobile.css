@@ -1,0 +1,322 @@
+/* Mobile-specific enhancements */
+
+/* Better touch targets and spacing */
+@media (max-width: 768px) {
+  /* Ensure all interactive elements have proper touch targets */
+  button, .btn, input, select, .nav-link, .tab-btn, .password-toggle {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better spacing for mobile */
+  .page-container {
+    padding: 0 0.5rem;
+  }
+  
+  /* Improved mobile cards */
+  .card {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Better mobile forms */
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-input, .form-select {
+    padding: 12px 16px;
+    font-size: 16px; /* Prevents zoom on iOS */
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+    transition: all 0.3s ease;
+  }
+  
+  .form-input:focus, .form-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    transform: translateY(-1px);
+  }
+  
+  /* Better mobile buttons */
+  .btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Enhanced mobile touch support */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    user-select: none;
+    -webkit-user-select: none;
+    min-height: 48px;
+    min-width: 48px;
+    cursor: pointer;
+    /* Critical: Ensure pointer events work */
+    pointer-events: auto;
+  }
+  
+  .btn:active {
+    transform: scale(0.96);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s ease;
+  }
+  
+  /* Critical fix: Ensure all interactive elements are clickable */
+  button, .btn, input[type="button"], input[type="submit"], 
+  .nav-link, .brand-card, .size-item, .cart-item {
+    pointer-events: auto;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  
+  /* Mobile table improvements */
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+  }
+  
+  .table {
+    min-width: 600px;
+    font-size: 14px;
+  }
+  
+  .table th {
+    position: sticky;
+    top: 0;
+    background: #f8fafc;
+    z-index: 10;
+  }
+  
+  .table th, .table td {
+    padding: 8px 6px;
+    white-space: nowrap;
+  }
+  
+  /* Mobile navigation enhancements */
+  .mobile-menu-toggle {
+    touch-action: manipulation;
+  }
+  
+  /* Better mobile spacing for headers */
+  .page-title {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  
+  .page-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .main-content {
+    padding: 4rem 0.75rem 1rem 0.75rem;
+  }
+  
+  .page-title {
+    font-size: 1.5rem;
+  }
+  
+  .card {
+    padding: 0.875rem;
+    border-radius: 10px;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form-input, .form-select {
+    padding: 10px 14px;
+  }
+  
+  .table {
+    font-size: 12px;
+  }
+  
+  .table th, .table td {
+    padding: 6px 4px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Enhanced touch support for all interactive elements */
+  .btn, .nav-link, .tab-btn, .quick-filter-btn, button, input, select {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  /* Remove hover effects on touch devices */
+  .btn:hover, .nav-link:hover, .tab-btn:hover, .quick-filter-btn:hover {
+    transform: none;
+  }
+  
+  /* Better active states for touch */
+  .btn:active,
+  .quick-filter-btn:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  
+  .nav-link:active, .tab-btn:active {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(0.98);
+  }
+  
+  /* Ensure proper touch targets */
+  .table tr {
+    min-height: 48px;
+  }
+  
+  .table button {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
+  
+  /* Enhanced focus states for accessibility */
+  .btn:focus,
+  .quick-filter-btn:focus,
+  button:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+/* Landscape mobile optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+  .main-content {
+    padding: 3rem 1rem 1rem 1rem;
+  }
+  
+  .mobile-menu-toggle {
+    top: 0.5rem;
+  }
+  
+  .page-header {
+    margin-bottom: 1rem;
+  }
+  
+  .card {
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .card, .btn, .form-input {
+    border-width: 0.5px;
+  }
+}
+
+/* Dark mode support (if needed later) */
+@media (prefers-color-scheme: dark) {
+  .mobile-menu-toggle {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Large text support */
+@media (min-width: 320px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 17px;
+  }
+  
+  .mobile-menu-toggle {
+    display: none !important;
+  }
+}
+
+/* CRITICAL TABLET FIXES - This is the key range where buttons don't work */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Force all interactive elements to work properly on tablets */
+  button, .btn, input[type="button"], input[type="submit"], 
+  .nav-link, .brand-card, .size-item, .cart-item, .clickable {
+    /* Essential properties for tablet touch */
+    min-height: 48px;
+    min-width: 48px;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.2) !important;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: all 0.2s ease;
+    /* iOS Safari specific fixes */
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  /* Active state feedback for tablets */
+  button:active, .btn:active, .brand-card:active, .size-item:active {
+    transform: scale(0.95) !important;
+    opacity: 0.8 !important;
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    transition: all 0.1s ease !important;
+  }
+  
+  /* Ensure form elements work */
+  input, select, textarea {
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 16px;
+    touch-action: manipulation;
+    -webkit-appearance: none;
+  }
+  
+  /* Fix for editable table cells */
+  .editable-cell.clickable {
+    min-height: 44px;
+    min-width: 60px;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.2);
+  }
+  
+  .editable-cell.clickable:active {
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    transform: scale(0.98);
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+  
+  .main-content {
+    margin-left: 250px !important;
+  }
+}

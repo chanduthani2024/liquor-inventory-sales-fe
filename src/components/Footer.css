@@ -1,0 +1,48 @@
+/* Footer Styles */
+.app-footer {
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 3rem;
+  padding: 1.5rem 0;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.copyright-text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app-footer {
+    padding: 1rem 0;
+  }
+  
+  .copyright-text {
+    font-size: 0.8rem;
+  }
+}
+
+/* Dark mode support (if needed in future) */
+@media (prefers-color-scheme: dark) {
+  .app-footer {
+    background: #1f2937;
+    border-top-color: #374151;
+  }
+  
+  .copyright-text {
+    color: #9ca3af;
+  }
+}

@@ -1,0 +1,989 @@
+/* Reports Page Styles */
+.reports-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.reports-header-left h1 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.reports-subtitle {
+  margin: 0.5rem 0 0 0;
+  color: #6b7280;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.filters-card {
+  margin-bottom: 2rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  background: #f9fafb;
+}
+
+/* Grid Layouts */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Summary Cards */
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.summary-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.summary-icon {
+  font-size: 2.5rem;
+  margin-right: 1rem;
+  opacity: 0.8;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.summary-content h3 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  color: #374151;
+  position: relative;
+  z-index: 1;
+}
+
+.summary-value {
+  margin: 0.25rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.summary-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+  position: relative;
+  z-index: 1;
+}
+
+.summary-amount {
+  margin: 0.25rem 0 0 0;
+  font-size: 1rem;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+/* Card Colors - Very Light Backgrounds */
+.opening-balance {
+  background: linear-gradient(135deg, #ffffff 0%, #fefefe 50%, rgba(59, 130, 246, 0.02) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  border-left: 4px solid #3b82f6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.opening-balance .summary-content h3 {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.opening-balance .summary-value {
+  color: #1e40af;
+}
+
+.opening-balance .summary-label {
+  color: #64748b;
+}
+
+.opening-balance .summary-amount {
+  color: #3b82f6;
+}
+
+.received-today {
+  background: linear-gradient(135deg, #ffffff 0%, #fefefe 50%, rgba(16, 185, 129, 0.02) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  border-left: 4px solid #10b981;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.received-today .summary-content h3 {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.received-today .summary-value {
+  color: #047857;
+}
+
+.received-today .summary-label {
+  color: #64748b;
+}
+
+.received-today .summary-amount {
+  color: #10b981;
+}
+
+.sales-today {
+  background: linear-gradient(135deg, #ffffff 0%, #fefefe 50%, rgba(245, 158, 11, 0.02) 100%);
+  border: 1px solid rgba(245, 158, 11, 0.1);
+  border-left: 4px solid #f59e0b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sales-today .summary-content h3 {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+.sales-today .summary-value {
+  color: #d97706;
+}
+
+.sales-today .summary-label {
+  color: #64748b;
+}
+
+.sales-today .summary-amount {
+  color: #f59e0b;
+}
+
+.closing-balance {
+  background: linear-gradient(135deg, #ffffff 0%, #fefefe 50%, rgba(139, 92, 246, 0.02) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  border-left: 4px solid #8b5cf6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.closing-balance .summary-content h3 {
+  color: #8b5cf6;
+  font-weight: 600;
+}
+
+.closing-balance .summary-value {
+  color: #7c3aed;
+}
+
+.closing-balance .summary-label {
+  color: #64748b;
+}
+
+.closing-balance .summary-amount {
+  color: #8b5cf6;
+}
+
+/* Table Styles */
+.table-container {
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem; /* Reduced from 0.875rem */
+  table-layout: fixed; /* Fixed layout for better control */
+}
+
+.reports-table th {
+  background: #f8fafc;
+  color: #374151;
+  font-weight: 600;
+  padding: 0.5rem 0.375rem; /* Reduced padding */
+  text-align: center; /* Center align headers */
+  border-bottom: 2px solid #e5e7eb;
+  white-space: normal; /* Allow line breaks */
+  font-size: 0.7rem; /* Smaller header font */
+  line-height: 1.1;
+  vertical-align: middle;
+  height: 3rem; /* Fixed height for multi-line headers */
+}
+
+.reports-table td {
+  padding: 0.5rem 0.375rem; /* Reduced padding */
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle;
+  text-align: center; /* Center align data */
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.even-row {
+  background-color: #ffffff;
+}
+
+.odd-row {
+  background-color: #f9fafb;
+}
+
+.reports-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* Column Width Controls */
+.reports-table th:nth-child(1), .reports-table td:nth-child(1) { width: 20%; } /* Name of the Brand */
+.reports-table th:nth-child(2), .reports-table td:nth-child(2) { width: 8%; }  /* Size */
+.reports-table th:nth-child(3), .reports-table td:nth-child(3) { width: 8%; }  /* O.B. */
+.reports-table th:nth-child(4), .reports-table td:nth-child(4) { width: 10%; } /* Received */
+.reports-table th:nth-child(5), .reports-table td:nth-child(5) { width: 10%; } /* Total */
+.reports-table th:nth-child(6), .reports-table td:nth-child(6) { width: 8%; }  /* C.B. */
+.reports-table th:nth-child(7), .reports-table td:nth-child(7) { width: 10%; } /* Sales */
+.reports-table th:nth-child(8), .reports-table td:nth-child(8) { width: 10%; } /* Rate */
+.reports-table th:nth-child(9), .reports-table td:nth-child(9) { width: 16%; } /* Sales Amount */
+
+/* Cell Specific Styles */
+.brand-name {
+  font-weight: 600;
+  color: #1f2937;
+  text-align: left !important; /* Keep brand name left aligned */
+  font-size: 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.size {
+  font-weight: 600;
+  color: #4b5563;
+  background: #f1f5f9;
+  border-radius: 0.25rem;
+  padding: 2px 6px;
+  display: inline-block;
+  font-size: 0.7rem;
+}
+
+.positive-value {
+  color: #059669;
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+.negative-value {
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+.zero-value {
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 0.7rem;
+}
+
+.sales-amount-value {
+  color: #059669;
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+
+
+/* Compact number formatting */
+.opening-balance, .total-stock, .closing-balance {
+  font-weight: 500;
+  font-size: 0.7rem;
+}
+
+.rate {
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* Totals Row */
+.totals-row {
+  background: #f1f5f9 !important;
+  border-top: 2px solid #cbd5e1;
+  font-weight: 700;
+}
+
+.totals-row td {
+  color: #1e293b;
+  font-size: 0.75rem;
+  padding: 0.75rem 0.375rem;
+  font-weight: 700;
+}
+
+/* Export Button */
+.export-btn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.export-btn:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.4);
+}
+
+.export-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.reports-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #6b7280;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  margin: 0 0 0.5rem 0;
+  color: #374151;
+  font-size: 1.25rem;
+}
+
+.empty-state p {
+  margin: 0.25rem 0;
+  font-size: 0.875rem;
+}
+
+/* Insights Card */
+.insights-card {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #0ea5e9;
+}
+
+.insight-item {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 0.5rem;
+  border-left: 3px solid #0ea5e9;
+}
+
+.insight-item h4 {
+  margin: 0 0 0.5rem 0;
+  color: #0c4a6e;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.insight-item p {
+  margin: 0;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.insight-item .muted {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid #e5e7eb;
+  border-radius: 50%;
+  border-top-color: #3b82f6;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .reports-header-right,
+  .filters-card,
+  .btn {
+    display: none !important;
+  }
+  
+  .summary-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #d1d5db;
+  }
+  
+  .reports-table {
+    font-size: 0.75rem;
+  }
+  
+  .reports-table th,
+  .reports-table td {
+    padding: 0.5rem;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .reports-table {
+    font-size: 0.7rem;
+  }
+  
+  .reports-table th {
+    padding: 0.4rem 0.25rem;
+    font-size: 0.65rem;
+  }
+  
+  .reports-table td {
+    padding: 0.4rem 0.25rem;
+    font-size: 0.7rem;
+  }
+  
+  .brand-name {
+    font-size: 0.7rem;
+  }
+  
+  .size {
+    font-size: 0.65rem;
+    padding: 1px 4px;
+  }
+  
+  /* Maintain larger editable cells on medium screens */
+  .editable-cell.clickable {
+    min-height: 40px;
+    padding: 6px 8px;
+  }
+  
+  .inline-edit-input {
+    width: 70px;
+    padding: 4px 6px;
+  }
+}
+
+/* Tablet responsive - Critical fixes for Reports page */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .reports-header {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  /* Enhanced touch targets for filters */
+  input[type="date"], select, .form-input {
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 16px;
+    touch-action: manipulation;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+  }
+  
+  input[type="date"]:focus, select:focus, .form-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  /* Better button touch targets */
+  .btn, button {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  .btn:active, button:active {
+    transform: scale(0.96);
+    transition: transform 0.1s ease;
+  }
+  
+  /* Export and Reset buttons */
+  .export-btn {
+    min-height: 52px;
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    touch-action: manipulation;
+  }
+  
+  .export-btn:active {
+    transform: scale(0.96);
+  }
+  
+  /* Table improvements for tablet */
+  .reports-table {
+    font-size: 0.8rem;
+  }
+  
+  .reports-table th {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .reports-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  /* Editable cells - better touch targets */
+  .editable-cell.clickable {
+    min-height: 44px;
+    min-width: 60px;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background-color 0.2s ease;
+  }
+  
+  .editable-cell.clickable:hover {
+    background-color: #f0f9ff;
+  }
+  
+  .editable-cell.clickable:active {
+    background-color: #dbeafe;
+    transform: scale(0.98);
+  }
+  
+  /* Pagination improvements */
+  .page-button, .pagination-button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 10px 14px;
+    font-size: 16px;
+    touch-action: manipulation;
+  }
+  
+  .page-button:active, .pagination-button:active {
+    transform: scale(0.95);
+  }
+  
+  /* Search input */
+  input[type="text"] {
+    min-height: 48px;
+    padding: 12px 16px;
+    font-size: 16px;
+    touch-action: manipulation;
+  }
+}
+
+@media (max-width: 768px) {
+  .reports-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .summary-card {
+    padding: 1rem;
+  }
+  
+  .summary-icon {
+    font-size: 2rem;
+  }
+  
+  .summary-value {
+    font-size: 1.5rem;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .reports-table {
+    min-width: 650px; /* Further reduced after removing defective column */
+    font-size: 0.65rem;
+  }
+  
+  .reports-table th {
+    padding: 0.3rem 0.2rem;
+    font-size: 0.6rem;
+  }
+  
+  .reports-table td {
+    padding: 0.3rem 0.2rem;
+    font-size: 0.65rem;
+  }
+  
+  /* Maintain usable editable cells on mobile */
+  .editable-cell.clickable {
+    min-height: 36px;
+    padding: 4px 6px;
+  }
+  
+  .inline-edit-input {
+    width: 60px;
+    padding: 3px 5px;
+    font-size: 0.7rem;
+  }
+  
+  .save-btn, .cancel-btn {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reports-header-left h1 {
+    font-size: 1.5rem;
+  }
+  
+  .reports-subtitle {
+    font-size: 0.875rem;
+  }
+  
+  .summary-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .summary-icon {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Inline Editing Styles */
+.editable-cell {
+  position: relative;
+  min-height: 40px; /* Increased from 28px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.editable-cell.clickable {
+  cursor: pointer;
+  padding: 8px 10px; /* Increased padding for better click target */
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  background: transparent;
+  min-height: 44px; /* Larger click target */
+}
+
+.editable-cell.clickable:hover {
+  background-color: #e0f2fe; /* More noticeable hover color */
+  border: 1px dashed #0ea5e9; /* Blue dashed border */
+  transform: scale(1.02); /* Subtle scale effect */
+}
+
+.editable-cell.clickable .edit-icon {
+  opacity: 0.3; /* Make slightly visible by default */
+  font-size: 0.7rem; /* Slightly larger */
+  margin-left: 4px;
+  transition: opacity 0.2s ease;
+  color: #0ea5e9; /* Blue color to match hover */
+}
+
+.editable-cell.clickable:hover .edit-icon {
+  opacity: 0.8; /* More visible on hover */
+}
+
+.editable-cell.editing {
+  padding: 4px; /* Increased padding */
+  background: #fff;
+  border: 2px solid #3b82f6; /* Thicker border */
+  border-radius: 6px;
+  box-shadow: 0 4px 8px -2px rgb(0 0 0 / 0.15); /* Better shadow */
+}
+
+.inline-edit-input {
+  width: 80px; /* Increased from 60px */
+  padding: 6px 8px; /* Increased padding */
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 0.8rem; /* Slightly larger font */
+  text-align: center;
+  background: white;
+  min-height: 32px; /* Set minimum height */
+}
+
+.inline-edit-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.inline-edit-input:disabled {
+  background-color: #f9fafb;
+  opacity: 0.6;
+}
+
+.validation-hint {
+  font-size: 0.7rem;
+  color: #6b7280;
+  margin-top: 2px;
+  padding: 0 2px;
+  text-align: center;
+  font-weight: 500;
+  background: #f3f4f6;
+  border-radius: 3px;
+  border: 1px solid #d1d5db;
+}
+
+.edit-controls {
+  display: flex;
+  gap: 2px;
+  margin-left: 4px;
+}
+
+.save-btn, .cancel-btn {
+  width: 24px; /* Increased from 18px */
+  height: 24px; /* Increased from 18px */
+  border: none;
+  border-radius: 4px;
+  font-size: 0.7rem; /* Slightly larger */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.save-btn {
+  background-color: #10b981;
+  color: white;
+}
+
+.save-btn:hover:not(:disabled) {
+  background-color: #059669;
+}
+
+.save-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.cancel-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background-color: #dc2626;
+}
+
+.cancel-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Enhanced table cell styling for inline editing */
+.reports-table .received-today,
+.reports-table .sales-quantity {
+  position: relative;
+  padding: 0;
+  min-height: 50px; /* Increased minimum height */
+}
+
+.reports-table .received-today .editable-cell,
+.reports-table .sales-quantity .editable-cell {
+  width: 100%;
+  min-height: 50px; /* Increased from 40px */
+}
+
+/* Add visual feedback for editable columns */
+.reports-table thead th:nth-child(4),
+.reports-table thead th:nth-child(7) {
+  position: relative;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); /* Light blue background */
+}
+
+.reports-table thead th:nth-child(4)::after,
+.reports-table thead th:nth-child(7)::after {
+  content: "✏️";
+  font-size: 0.75rem;
+  opacity: 0.7; /* More visible */
+  margin-left: 4px;
+}
+
+/* Add subtle background to editable data cells */
+.reports-table tbody td:nth-child(4),
+.reports-table tbody td:nth-child(7) {
+  background-color: #fafbfc; /* Very light background */
+}
+
+.reports-table tbody tr:hover td:nth-child(4),
+.reports-table tbody tr:hover td:nth-child(7) {
+  background-color: #f0f9ff; /* Light blue on hover */
+}
+
+/* Pagination Styles */
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+.pagination-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.items-per-page-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.items-per-page-select {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background-color: white;
+  cursor: pointer;
+  min-width: 70px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.items-per-page-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.pagination-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination-button {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background-color: white;
+  color: #374151;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.pagination-button:disabled {
+  background-color: #f9fafb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.page-button {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background-color: white;
+  color: #374151;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  min-width: 2.5rem;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.page-button:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.page-button.active {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.page-info {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-left: 1rem;
+  white-space: nowrap;
+}
+
+/* Responsive pagination */
+@media (max-width: 768px) {
+  .pagination-container {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .pagination-right {
+    justify-content: center;
+  }
+  
+  .page-info {
+    margin-left: 0;
+    text-align: center;
+  }
+}

@@ -1,0 +1,304 @@
+/* Stock page specific styles */
+.stock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.stock-header-left h1 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.stock-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stock-subtitle {
+  margin: 0;
+  color: #6b7280;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.add-stock-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
+}
+
+.add-stock-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(59, 130, 246, 0.35);
+}
+
+.add-stock-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.stock-form-card {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  margin-bottom: 2rem;
+}
+
+.stock-form-title {
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 0.5rem;
+}
+
+.stock-form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: flex-end;
+}
+
+.stock-btn-submit {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.stock-btn-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+}
+
+.stock-btn-cancel {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.stock-btn-cancel:hover {
+  background: #4b5563;
+  transform: translateY(-1px);
+}
+
+.stock-table-card {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.stock-table-title {
+  margin-bottom: 1.5rem;
+  color: #1f2937;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.stock-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.stock-table th,
+.stock-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.stock-table th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stock-table tbody tr:hover {
+  background-color: #f9fafb;
+  transition: background-color 0.2s ease;
+}
+
+.stock-brand-name {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.stock-price-cell {
+  color: #059669;
+  font-weight: 500;
+}
+
+.stock-quantity-cell {
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.stock-action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.stock-btn-edit {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stock-btn-edit:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.stock-btn-delete {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stock-btn-delete:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.btn-info {
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-info:hover {
+  background: #7c3aed;
+  transform: translateY(-1px);
+}
+
+.stock-action-buttons {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.stock-action-buttons button {
+  font-size: 0.75rem;
+  padding: 0.375rem 0.5rem;
+}
+
+.no-stock-message {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+  padding: 2rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.adjustment-notice {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: #92400e;
+}
+
+.form-label-with-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.current-quantity-note {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: normal;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .stock-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .stock-header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .stock-form-actions {
+    flex-direction: column;
+  }
+  
+  .stock-btn-submit,
+  .stock-btn-cancel {
+    width: 100%;
+  }
+  
+  .stock-table {
+    font-size: 0.875rem;
+  }
+  
+  .stock-table th,
+  .stock-table td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .stock-action-buttons {
+    flex-direction: column;
+  }
+  
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
