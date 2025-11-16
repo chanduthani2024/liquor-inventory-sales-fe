@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { stockApi, brandApi, stockMovementsApi } from '../services/api';
 import { Stock, Brand } from '../types';
+import { InvoiceParsingResponse } from '../types/invoice';
 import { getSizeDisplayName } from '../utils/sizeMapping';
 import Footer from '../components/Footer';
+import InvoiceImport from '../components/InvoiceImport';
 import './Stock.css';
 
 const StockPage: React.FC = () => {
@@ -16,6 +18,7 @@ const StockPage: React.FC = () => {
   const [formMode, setFormMode] = useState<'receipt' | 'add' | 'defect'>('receipt');
   const [editingStock, setEditingStock] = useState<Stock | null>(null);
   const [showMovements, setShowMovements] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
   
   const [formData, setFormData] = useState({
     brandId: '',
@@ -268,6 +271,25 @@ const StockPage: React.FC = () => {
     }
   };
 
+  const handleImportSuccess = (response: InvoiceParsingResponse) => {
+    toast.success(`Successfully imported ${response.items_parsed} items from ICDC ${response.icdc_number}`);
+    // Show a success message about where the data is stored
+    toast.success('Invoice data has been stored and can be reviewed in the Invoice Management section', {
+      duration: 6000,
+    });
+    
+    // Close the import modal
+    setShowImportModal(false);
+    
+    // Optionally refresh stock data to show any updates
+    fetchStocks();
+    
+    // Re-apply current search filter
+    if (searchTerm) {
+      filterStocks(searchTerm);
+    }
+  };
+
 
 
   
@@ -339,10 +361,6 @@ const StockPage: React.FC = () => {
   if (loading) {
     return (
       <div className="page-container">
-        <div className="page-header">
-          <h1 className="page-title">Stock Management</h1>
-          <p className="page-subtitle">Manage Wine Inventory</p>
-        </div>
         <div className="card">
           <p>Loading stock data...</p>
         </div>
@@ -378,13 +396,15 @@ const StockPage: React.FC = () => {
       />
       
       <div className="stock-header">
-        <div className="stock-header-left">
-          <h1 className="page-title">Stock Management</h1>
-        </div>
-        <div className="stock-header-right">
-          <p className="stock-subtitle">
-            Manage Wine Inventory
-          </p>
+        <div className="stock-header-right" style={{ display: 'flex', gap: '1rem', marginLeft: 'auto' }}>
+          <button 
+            className="btn btn-info"
+            onClick={() => setShowImportModal(true)}
+            disabled={showForm || showImportModal}
+            title="Import ICDC invoice PDF to automatically extract stock data"
+          >
+            📄 Import Invoice
+          </button>
           <button 
             className="add-stock-btn"
             onClick={() => {
@@ -392,7 +412,7 @@ const StockPage: React.FC = () => {
               setEditingStock(null);
               setShowForm(true);
             }}
-            disabled={showForm}
+            disabled={showForm || showImportModal}
           >
             Record Stock Receipt
           </button>
@@ -928,6 +948,39 @@ const StockPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Invoice Import Modal */}
+      {showImportModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '0.5rem',
+            padding: '2rem',
+            maxWidth: '600px',
+            width: '90%',
+            maxHeight: '80vh',
+            overflow: 'auto',
+            boxShadow: '0 20px 25px rgba(0, 0, 0, 0.3)'
+          }}>
+            <InvoiceImport
+              onImportSuccess={handleImportSuccess}
+              onClose={() => setShowImportModal(false)}
+            />
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );

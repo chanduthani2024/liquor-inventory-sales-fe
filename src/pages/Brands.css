@@ -160,7 +160,7 @@
 
 .brands-table th,
 .brands-table td {
-  padding: 0.6rem 0.3rem; /* Further reduced padding for better fit */
+  padding: 0.5rem 0.2rem; /* Reduced padding for compact layout */
   text-align: center; /* Center align for better space usage */
   border-bottom: 1px solid #e5e7eb;
   vertical-align: middle;
@@ -188,18 +188,18 @@
   line-height: 1.2;
 }
 
-/* Column width controls for better fit - Reduced gap between Brand Name and D column */
-.brands-table th:nth-child(1), .brands-table td:nth-child(1) { width: 15%; min-width: 130px; } /* Brand Name - Reduced width */
-.brands-table th:nth-child(2), .brands-table td:nth-child(2) { width: 9%; }  /* D (90ml) */
-.brands-table th:nth-child(3), .brands-table td:nth-child(3) { width: 9%; }  /* N (180ml) */
-.brands-table th:nth-child(4), .brands-table td:nth-child(4) { width: 9%; }  /* 330ml */
-.brands-table th:nth-child(5), .brands-table td:nth-child(5) { width: 9%; }  /* P (375ml) */
-.brands-table th:nth-child(6), .brands-table td:nth-child(6) { width: 9%; }  /* 500ml */
-.brands-table th:nth-child(7), .brands-table td:nth-child(7) { width: 9%; }  /* 650ml */
-.brands-table th:nth-child(8), .brands-table td:nth-child(8) { width: 9%; }  /* Q (750ml) */
-.brands-table th:nth-child(9), .brands-table td:nth-child(9) { width: 8%; }  /* 1L */
-.brands-table th:nth-child(10), .brands-table td:nth-child(10) { width: 8%; } /* 2L */
-.brands-table th:nth-child(11), .brands-table td:nth-child(11) { width: 10%; } /* Actions */
+/* Column width controls - Removed Brand Number column, reduced spacing between size columns */
+.brands-table th:nth-child(1), .brands-table td:nth-child(1) { width: 18%; min-width: 150px; } /* Brand Name - Increased for name + number */
+.brands-table th:nth-child(2), .brands-table td:nth-child(2) { width: 7%; }  /* D (90ml) */
+.brands-table th:nth-child(3), .brands-table td:nth-child(3) { width: 7%; }  /* N (180ml) */
+.brands-table th:nth-child(4), .brands-table td:nth-child(4) { width: 7%; }  /* 330ml */
+.brands-table th:nth-child(5), .brands-table td:nth-child(5) { width: 7%; }  /* P (375ml) */
+.brands-table th:nth-child(6), .brands-table td:nth-child(6) { width: 7%; }  /* 500ml */
+.brands-table th:nth-child(7), .brands-table td:nth-child(7) { width: 7%; }  /* 650ml */
+.brands-table th:nth-child(8), .brands-table td:nth-child(8) { width: 7%; }  /* Q (750ml) */
+.brands-table th:nth-child(9), .brands-table td:nth-child(9) { width: 7%; }  /* 1L */
+.brands-table th:nth-child(10), .brands-table td:nth-child(10) { width: 7%; } /* 2L */
+.brands-table th:nth-child(11), .brands-table td:nth-child(11) { width: 13%; min-width: 130px; } /* Actions - Increased to show delete button */
 
 .brands-table tbody tr:hover {
   background-color: #f9fafb;
@@ -210,12 +210,12 @@
   font-weight: 600;
   color: #1f2937;
   text-align: left !important; /* Keep brand name left aligned */
-  padding-left: 0.5rem !important; /* Reduced left padding */
-  padding-right: 0.2rem !important; /* Reduced right padding */
-  white-space: normal !important; /* Allow text wrapping */
+  padding-left: 0.5rem !important;
+  padding-right: 0.2rem !important;
+  white-space: normal !important; /* Allow text wrapping for brand name + number */
   word-wrap: break-word;
-  line-height: 1.3;
-  max-width: 130px; /* Reduced max width */
+  line-height: 1.4;
+  max-width: 150px; /* Increased to accommodate name + number */
 }
 
 .price-cell {
@@ -290,6 +290,7 @@
   margin: 0 !important;
   color: #1f2937 !important;
   max-width: 400px !important;
+  z-index: 1025 !important; /* Higher than regular toasts to ensure visibility */
 }
 
 .confirmation-content {

@@ -43,6 +43,206 @@ input[type="reset"],
   cursor: pointer;
 }
 
+/* Toast message z-index fix - ensure toasts appear above header */
+/* Ultra high-specificity selectors for react-hot-toast */
+[data-hot-toast],
+[data-hot-toast-id],
+.hot-toast-bar,
+div[data-hot-toast],
+div[data-hot-toast-id] {
+  z-index: 1020 !important; /* Much higher than header (1001) and sidebar (1005) */
+  position: fixed !important;
+}
+
+/* Individual toast styling to ensure proper layering */
+[data-hot-toast] > div,
+[data-hot-toast-id] > div,
+div[data-hot-toast] > div,
+div[data-hot-toast-id] > div,
+.hot-toast-bar > div {
+  z-index: 1020 !important;
+  position: relative !important;
+}
+
+/* Toast container positioning fix */
+.Toaster,
+[data-toast-container],
+#toast-container {
+  z-index: 1020 !important;
+  position: fixed !important;
+}
+
+/* React-hot-toast root container fix */
+body > div[data-hot-toast] {
+  z-index: 1020 !important;
+}
+
+/* Toast wrapper and all child elements */
+[data-hot-toast] *,
+[data-hot-toast-id] *,
+div[data-hot-toast] *,
+div[data-hot-toast-id] * {
+  z-index: inherit !important;
+}
+
+/* Additional toast positioning fixes for mobile and tablet */
+@media (max-width: 1024px) {
+  [data-hot-toast],
+  [data-hot-toast-id],
+  div[data-hot-toast],
+  div[data-hot-toast-id] {
+    top: 70px !important; /* Position below header (header height is 60-64px) */
+    z-index: 1020 !important;
+  }
+  
+  /* Ensure toasts don't overlap with sidebar when open */
+  [data-hot-toast][data-position="top-right"],
+  [data-hot-toast-id][data-position="top-right"] {
+    right: 20px !important;
+    top: 70px !important;
+    z-index: 1020 !important;
+  }
+  
+  [data-hot-toast][data-position="top-left"],
+  [data-hot-toast-id][data-position="top-left"] {
+    left: 20px !important;
+    top: 70px !important;
+    z-index: 1020 !important;
+  }
+  
+  [data-hot-toast][data-position="top-center"],
+  [data-hot-toast-id][data-position="top-center"] {
+    top: 70px !important;
+    z-index: 1020 !important;
+  }
+}
+
+/* Mobile specific toast adjustments */
+@media (max-width: 768px) {
+  [data-hot-toast],
+  [data-hot-toast-id],
+  div[data-hot-toast],
+  div[data-hot-toast-id] {
+    top: 65px !important; /* Slightly less on mobile */
+    margin: 0 10px !important;
+    max-width: calc(100vw - 20px) !important;
+    z-index: 1020 !important;
+  }
+  
+  [data-hot-toast][data-position="top-right"],
+  [data-hot-toast-id][data-position="top-right"] {
+    right: 10px !important;
+    z-index: 1020 !important;
+  }
+  
+  [data-hot-toast][data-position="top-left"],
+  [data-hot-toast-id][data-position="top-left"] {
+    left: 10px !important;
+    z-index: 1020 !important;
+  }
+}
+
+/* High-specificity fixes for react-hot-toast */
+div[data-hot-toast],
+div[data-hot-toast-id] {
+  z-index: 1020 !important;
+  position: fixed !important;
+}
+
+div[data-hot-toast] > div,
+div[data-hot-toast-id] > div {
+  z-index: 1020 !important;
+}
+
+/* Ensure toast backdrop doesn't interfere */
+div[data-hot-toast]:before,
+div[data-hot-toast]:after,
+div[data-hot-toast-id]:before,
+div[data-hot-toast-id]:after {
+  z-index: 1019 !important;
+}
+
+/* Global catch-all for any toast-related elements */
+[class*="hot-toast"],
+[class*="toast"],
+[id*="toast"],
+div[style*="position: fixed"] {
+  z-index: 1020 !important;
+}
+
+/* Fix for toast animations to maintain z-index */
+@keyframes toast-enter {
+  0% {
+    transform: translate3d(0, -200%, 0) scale(0.6);
+    opacity: 0;
+    z-index: 1020;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+    z-index: 1020;
+  }
+}
+
+@keyframes toast-exit {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+    z-index: 1020;
+  }
+  100% {
+    transform: translate3d(0, -150%, 0) scale(0.6);
+    opacity: 0;
+    z-index: 1020;
+  }
+}
+
+/* Apply animations to toasts */
+[data-hot-toast] > div,
+[data-hot-toast-id] > div {
+  animation: toast-enter 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+  z-index: 1020 !important;
+}
+
+[data-hot-toast][data-state="removing"] > div,
+[data-hot-toast-id][data-state="removing"] > div {
+  animation: toast-exit 0.4s cubic-bezier(0.06, 0.71, 0.55, 1) forwards;
+  z-index: 1020 !important;
+}
+
+/* Ultimate fallback - any element with toast in its attributes */
+*[data-hot-toast],
+*[data-hot-toast-id],
+*[class*="toast"],
+*[id*="toast"] {
+  z-index: 1020 !important;
+}
+
+/* Target react-hot-toast container directly at body level */
+body > div:has([data-hot-toast]),
+body > div:has([data-hot-toast-id]) {
+  z-index: 1020 !important;
+  position: fixed !important;
+}
+
+/* Fallback for older browsers without :has() support */
+body > div[style*="position: fixed"][style*="inset: 0px"] {
+  z-index: 1020 !important;
+}
+
+body > div[style*="position: fixed"][style*="top: 0px"] {
+  z-index: 1020 !important;
+}
+
+/* More specific targeting for the toast wrapper */
+div[style*="position: fixed"][style*="pointer-events: none"] {
+  z-index: 1020 !important;
+}
+
+div[style*="position: fixed"][style*="pointer-events: none"] > div {
+  z-index: 1020 !important;
+}
+
 /* Critical tablet and mobile button fixes */
 @media (max-width: 1024px) {
   button, .btn, input[type="button"], input[type="submit"] {
@@ -82,16 +282,18 @@ body {
 }
 
 .App {
-  display: flex;
+  display: block; /* Changed from flex to block for better layout control */
   min-height: 100vh;
+  width: 100%;
 }
 
 .main-content {
-  margin-left: 250px;
+  margin-left: 0; /* Changed: no margin since sidebar is collapsible */
   flex: 1;
-  padding: 2rem;
+  padding: 80px 2rem 2rem 2rem; /* Updated: 80px top padding for 60px header + margin */
   background: #f8fafc;
   min-height: 100vh;
+  width: 100%; /* Ensure full width usage */
   /* Ensure touch events work properly */
   touch-action: manipulation;
   position: relative;
@@ -262,8 +464,9 @@ body {
 /* Tablet responsive - Critical fix for touch interactions */
 @media (max-width: 1024px) and (min-width: 769px) {
   .main-content {
-    margin-left: 220px;
-    padding: 1.5rem;
+    margin-left: 0; /* Fixed: use full width on tablets too */
+    padding: 80px 1.5rem 1.5rem 1.5rem; /* Updated: 80px for header + margin */
+    width: 100%;
   }
   
   .page-title {
@@ -306,7 +509,7 @@ body {
 @media (max-width: 768px) {
   .main-content {
     margin-left: 0;
-    padding: 4rem 1rem 1rem 1rem;
+    padding: 80px 1rem 1rem 1rem; /* Updated: 80px for header + margin */
   }
   
   .page-container {
@@ -387,7 +590,7 @@ body {
 
 @media (max-width: 480px) {
   .main-content {
-    padding: 4rem 0.75rem 1rem 0.75rem;
+    padding: 80px 0.75rem 1rem 0.75rem; /* Updated: 80px for header + margin */
   }
   
   .page-title {
@@ -451,4 +654,50 @@ body {
     transform: scale(0.98);
     transition: transform 0.1s ease;
   }
+}
+
+/* ============================================ */
+/* FINAL TOAST Z-INDEX OVERRIDE - ABSOLUTE FIX */
+/* ============================================ */
+
+/* This is the nuclear option - force ALL toast elements above everything */
+[data-hot-toast],
+[data-hot-toast-id],
+div[data-hot-toast],
+div[data-hot-toast-id],
+.hot-toast-bar,
+.Toaster,
+[data-toast-container],
+#toast-container,
+*[class*="toast"],
+*[id*="toast"],
+body > div:has([data-hot-toast]),
+body > div:has([data-hot-toast-id]) {
+  z-index: 2000 !important;
+  position: fixed !important;
+}
+
+/* Force all children of toast containers to inherit high z-index */
+[data-hot-toast] *,
+[data-hot-toast-id] *,
+div[data-hot-toast] *,
+div[data-hot-toast-id] *,
+.hot-toast-bar *,
+.Toaster * {
+  z-index: inherit !important;
+}
+
+/* Override any competing styles */
+body [data-hot-toast] {
+  z-index: 2000 !important;
+}
+
+body div[data-hot-toast] {
+  z-index: 2000 !important;
+}
+
+/* Ensure toast containers have higher stacking context than header */
+html [data-hot-toast],
+html div[data-hot-toast] {
+  z-index: 2000 !important;
 }

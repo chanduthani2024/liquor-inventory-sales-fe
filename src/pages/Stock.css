@@ -50,6 +50,32 @@
   transform: none;
 }
 
+/* Import Invoice Button Styles */
+.btn-info {
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(23, 162, 184, 0.25);
+  font-size: 0.875rem;
+}
+
+.btn-info:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(23, 162, 184, 0.35);
+  background: linear-gradient(135deg, #138496 0%, #0f6674 100%);
+}
+
+.btn-info:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .stock-form-card {
   background: #ffffff;
   border-radius: 0.75rem;

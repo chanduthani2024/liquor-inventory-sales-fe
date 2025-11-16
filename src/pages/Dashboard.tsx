@@ -17,7 +17,7 @@ const Dashboard: React.FC = () => {
   const [selectedQuickFilter, setSelectedQuickFilter] = useState<string>('today');
 
   // Quick filter options
-  const getQuickFilterDates = (filter: string) => {
+  const getQuickFilterDates = useCallback((filter: string) => {
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
       default:
         return dateFilter;
     }
-  };
+  }, [dateFilter]);
 
   const fetchDashboardData = useCallback(async () => {
     try {
@@ -88,23 +88,25 @@ const Dashboard: React.FC = () => {
     setSelectedQuickFilter('custom');
   };
 
-  const handleQuickFilter = (filter: string) => {
+  const handleQuickFilter = useCallback((filter: string) => {
     console.log('🔍 [Dashboard] handleQuickFilter called with:', filter);
     console.log('🔍 [Dashboard] Current selectedQuickFilter:', selectedQuickFilter);
+    
+    // Prevent double execution
+    if (selectedQuickFilter === filter) {
+      console.log('🔍 [Dashboard] Same filter selected, ignoring');
+      return;
+    }
     
     setSelectedQuickFilter(filter);
     const dates = getQuickFilterDates(filter);
     console.log('🔍 [Dashboard] New dates:', dates);
     setDateFilter(dates);
-  };
+  }, [selectedQuickFilter, getQuickFilterDates]);
 
   if (loading) {
     return (
       <div className="page-container">
-        <div className="page-header">
-          <h1 className="page-title">Dashboard</h1>
-          <p className="page-subtitle">Wine Shop Overview</p>
-        </div>
         <div className="card">
           <p>Loading dashboard data...</p>
         </div>
@@ -115,10 +117,6 @@ const Dashboard: React.FC = () => {
   if (error) {
     return (
       <div className="page-container">
-        <div className="page-header">
-          <h1 className="page-title">Dashboard</h1>
-          <p className="page-subtitle">Wine Shop Overview</p>
-        </div>
         <div className="card">
           <p style={{ color: 'red' }}>{error}</p>
           <button className="btn btn-primary" onClick={fetchDashboardData}>
@@ -131,18 +129,24 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="page-container">
-      <div className="page-header">
-        <h1 className="page-title">Dashboard</h1>
-        <p className="page-subtitle">Wine Shop Overview</p>
-      </div>
-
       {/* Date Filter */}
       <div className="card">
         <h3 style={{ marginBottom: '1rem' }}>Date Filter</h3>
         
         {/* Quick Filter Buttons */}
         <div style={{ marginBottom: '1.5rem' }}>
-          <div className="quick-filter-buttons">
+          <div 
+            className="quick-filter-buttons"
+            onClick={(e) => {
+              // Event delegation for better compatibility
+              const target = e.target as HTMLElement;
+              const button = target.closest('.quick-filter-btn') as HTMLButtonElement;
+              if (button && button.dataset.filter) {
+                console.log('🔍 [Dashboard] Delegated click:', button.dataset.filter);
+                handleQuickFilter(button.dataset.filter);
+              }
+            }}
+          >
             {[
               { key: 'today', label: 'Today' },
               { key: 'yesterday', label: 'Yesterday' },
@@ -161,51 +165,9 @@ const Dashboard: React.FC = () => {
                   console.log('🔍 [Dashboard] Button clicked:', option.key);
                   handleQuickFilter(option.key);
                 }}
-                onTouchStart={(e) => {
-                  console.log('🔍 [Dashboard] Touch start:', option.key);
-                  // Add visual feedback
-                  e.currentTarget.style.transform = 'scale(0.98)';
-                }}
-                onTouchEnd={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  console.log('🔍 [Dashboard] Touch end:', option.key);
-                  // Reset visual feedback
-                  e.currentTarget.style.transform = '';
-                  handleQuickFilter(option.key);
-                }}
-                onTouchCancel={(e) => {
-                  console.log('🔍 [Dashboard] Touch cancelled:', option.key);
-                  // Reset visual feedback
-                  e.currentTarget.style.transform = '';
-                }}
-                onMouseDown={(e) => {
-                  console.log('🔍 [Dashboard] Mouse down:', option.key);
-                }}
-                // Backup using onPointerUp for broader compatibility
-                onPointerUp={(e) => {
-                  console.log('🔍 [Dashboard] Pointer up:', option.key, 'pointerType:', e.pointerType);
-                  if (e.pointerType === 'touch') {
-                    handleQuickFilter(option.key);
-                  }
-                }}
-                style={{
-                  // Ensure button is properly positioned and clickable
-                  position: 'relative',
-                  zIndex: 1,
-                  WebkitTapHighlightColor: 'transparent',
-                  WebkitTouchCallout: 'none',
-                  WebkitUserSelect: 'none',
-                  MozUserSelect: 'none',
-                  msUserSelect: 'none',
-                  userSelect: 'none',
-                  // Critical: Ensure the button is properly sized and has touch area
-                  minHeight: '48px',
-                  minWidth: '48px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
+                data-filter={option.key}
+                aria-label={`Filter by ${option.label}`}
+                tabIndex={0}
               >
                 {option.label}
               </button>
@@ -264,6 +226,18 @@ const Dashboard: React.FC = () => {
               <h3>📦 Stock Value</h3>
               <p className="value">
                 ₹{dashboardData.summary.totalStockValue.toLocaleString()}
+              </p>
+            </div>
+            <div className="summary-card profit">
+              <h3>📈 Total Profit</h3>
+              <p className="value">
+                ₹{dashboardData.summary.totalProfit ? dashboardData.summary.totalProfit.toLocaleString() : '0'}
+              </p>
+              <p className="sub-value">
+                {dashboardData.summary.profitMargin 
+                  ? `${dashboardData.summary.profitMargin.toFixed(1)}% margin`
+                  : 'No profit data'
+                }
               </p>
             </div>
             <div className="summary-card brands">

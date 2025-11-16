@@ -90,6 +90,21 @@ const ReportsPage: React.FC = () => {
     const cellKey = getCellKey(brandId, size, field);
     setEditingCells(prev => ({ ...prev, [cellKey]: true }));
     setTempValues(prev => ({ ...prev, [cellKey]: currentValue.toString() }));
+    
+    // Enhanced tablet support - ensure input gets focus after render
+    setTimeout(() => {
+      const input = document.querySelector(`input[data-cell-key="${cellKey}"]`) as HTMLInputElement;
+      if (input) {
+        // Force focus on tablets/mobile
+        input.focus();
+        // Position cursor at the end of the text (now works since it's type="text")
+        input.setSelectionRange(input.value.length, input.value.length);
+        // Trigger keyboard on mobile devices
+        if (window.navigator.userAgent.match(/iPad|iPhone|Android/i)) {
+          input.click();
+        }
+      }
+    }, 50);
   };
 
   const cancelEditing = (brandId: number, size: string, field: string) => {
@@ -104,7 +119,21 @@ const ReportsPage: React.FC = () => {
 
   const saveValue = async (brandId: number, size: string, field: string) => {
     const cellKey = getCellKey(brandId, size, field);
-    const newValue = parseInt(tempValues[cellKey] || '0');
+    const inputValue = tempValues[cellKey] || '';
+    
+    // If input is empty or whitespace, keep original value
+    if (!inputValue.trim()) {
+      // Just close editing without saving
+      setEditingCells(prev => ({ ...prev, [cellKey]: false }));
+      setTempValues(prev => {
+        const newValues = { ...prev };
+        delete newValues[cellKey];
+        return newValues;
+      });
+      return;
+    }
+    
+    const newValue = parseInt(inputValue);
     
     if (isNaN(newValue) || newValue < 0) {
       toast.error('Please enter a valid positive number', {
@@ -122,16 +151,26 @@ const ReportsPage: React.FC = () => {
       return;
     }
 
-    // Validation: Check if sales quantity exceeds total available stock
-    if (field === 'sales_quantity') {
+    // Validation: Check if closing balance is valid (cannot be negative and cannot exceed total available)
+    if (field === 'closed_balance') {
       const totalAvailable = currentReport.opening_balance + currentReport.received_today;
       if (newValue > totalAvailable) {
         toast.error(
-          `Sales cannot be more than total available stock!\n` +
+          `Closing balance cannot be more than total available stock!\n` +
           `Available: ${totalAvailable} bottles (Opening: ${currentReport.opening_balance} + Received: ${currentReport.received_today})\n` +
           `You entered: ${newValue} bottles`,
           {
             duration: 3000 // 3 seconds for important validation errors (slightly longer)
+          }
+        );
+        return;
+      }
+      if (newValue < 0) {
+        toast.error(
+          `Closing balance cannot be negative!\n` +
+          `You entered: ${newValue} bottles`,
+          {
+            duration: 3000
           }
         );
         return;
@@ -142,30 +181,48 @@ const ReportsPage: React.FC = () => {
 
     try {
       // Prepare the data for manual stock entry API
+      // Calculate sales_quantity from: Opening Balance + Received - Closing Balance = Sales
+      const calculatedSales = field === 'closed_balance' ? 
+        currentReport.opening_balance + currentReport.received_today - newValue : 
+        currentReport.sales_quantity;
+
+      // Debug log to verify calculation
+      if (field === 'closed_balance') {
+        console.log('🧮 Sales Calculation:', {
+          brand: currentReport.brand_name,
+          size: currentReport.size,
+          openingBalance: currentReport.opening_balance,
+          receivedToday: currentReport.received_today,
+          closingBalance: newValue,
+          calculatedSales: calculatedSales,
+          formula: `${currentReport.opening_balance} + ${currentReport.received_today} - ${newValue} = ${calculatedSales}`
+        });
+      }
 
       const requestData = {
         brand_id: brandId,
         size: size,
         date: selectedDate,
+        opening_balance: currentReport.opening_balance, // Pass O.B from report as source of truth
         received_today: field === 'received_today' ? newValue : currentReport.received_today,
-        sales_quantity: field === 'sales_quantity' ? newValue : currentReport.sales_quantity,
-        notes: `Updated ${field} via inline editing`
+        sales_quantity: calculatedSales,
+        notes: `Updated ${field} via inline editing${field === 'closed_balance' ? ' (sales auto-calculated)' : ''}`
       };
 
       await stockMovementsApi.manualStockEntry(requestData);
       
       // 🎯 Shorter toast duration for Detailed Stock Report inline editing
-      toast.success(`${field === 'received_today' ? 'Received quantity' : 'Sales quantity'} updated successfully`, {
+      toast.success(`${field === 'received_today' ? 'Received quantity' : 'Closing balance'} updated successfully${field === 'closed_balance' ? ' (sales auto-calculated)' : ''}`, {
         duration: 2000 // 2 seconds instead of default 5 seconds
       });
       
       // Refresh the reports to show updated calculations
       await fetchReports();
       
-      // 🔄 Refresh Cash Reconciliation data after sales entry
+      // 🔄 Refresh Cash Reconciliation data after closing balance entry (which affects sales)
       // This ensures the Daily Cash Reconciliation shows updated totals
-      if (field === 'sales_quantity') {
-        console.log('🔄 Refreshing cash reconciliation after sales update...');
+      if (field === 'closed_balance') {
+        console.log('🔄 Refreshing cash reconciliation after closing balance update (sales auto-calculated)...');
         // Force CashReconciliation component to refresh by updating its key
         // The key prop will trigger a re-mount and fresh data fetch
         window.dispatchEvent(new CustomEvent('refreshCashReconciliation', { 
@@ -206,7 +263,7 @@ const ReportsPage: React.FC = () => {
   };
 
   // Render inline editable cell
-  const renderEditableCell = (report: StockReport, field: 'received_today' | 'sales_quantity') => {
+  const renderEditableCell = (report: StockReport, field: 'received_today' | 'closed_balance') => {
     const cellKey = getCellKey(report.brand_id, report.size, field);
     const isEditing = editingCells[cellKey];
     const isSaving = savingCells[cellKey];
@@ -214,24 +271,63 @@ const ReportsPage: React.FC = () => {
     const tempValue = tempValues[cellKey] || '';
 
     if (isEditing) {
-      const maxAvailable = field === 'sales_quantity' ? report.opening_balance + report.received_today : undefined;
+      const maxAvailable = field === 'closed_balance' ? report.opening_balance + report.received_today : undefined;
       
       return (
         <div className="editable-cell editing">
-          <input
-            type="number"
-            min="0"
-            max={maxAvailable}
-            value={tempValue}
-            onChange={(e) => handleInputChange(report.brand_id, report.size, field, e.target.value)}
-            onKeyDown={(e) => handleKeyPress(e, report.brand_id, report.size, field)}
-            onBlur={() => saveValue(report.brand_id, report.size, field)}
-            className="inline-edit-input"
-            autoFocus
-            disabled={isSaving}
-            title={field === 'sales_quantity' ? `Max available: ${maxAvailable} bottles. Press Enter to save, Escape to cancel` : 'Press Enter to save, Escape to cancel'}
-            placeholder={field === 'sales_quantity' ? `Max: ${maxAvailable}` : undefined}
-          />
+          <div className="edit-input-container">
+            <input
+              type="text"
+              inputMode="numeric" // Better on mobile/tablet - shows numeric keyboard
+              pattern="[0-9]*" // Only allow numeric input
+              value={tempValue}
+              onChange={(e) => {
+                // Only allow numeric input
+                const value = e.target.value.replace(/[^0-9]/g, '');
+                handleInputChange(report.brand_id, report.size, field, value);
+              }}
+              onKeyDown={(e) => handleKeyPress(e, report.brand_id, report.size, field)}
+              className="inline-edit-input"
+              data-cell-key={cellKey}
+              autoFocus
+              disabled={isSaving}
+              title={field === 'closed_balance' ? `Max available: ${maxAvailable} bottles. Press Enter to save, Escape to cancel` : 'Press Enter to save, Escape to cancel'}
+              placeholder={field === 'closed_balance' ? `Max: ${maxAvailable}` : undefined}
+              style={{
+                // Enhanced tablet support
+                WebkitAppearance: 'none',
+                appearance: 'none',
+                touchAction: 'manipulation',
+                cursor: 'text'
+              }}
+            />
+            <div className="edit-action-buttons">
+              <button 
+                className="save-btn" 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  saveValue(report.brand_id, report.size, field);
+                }}
+                disabled={isSaving}
+                title="Save changes"
+                style={{ touchAction: 'manipulation' }}
+              >
+                ✓
+              </button>
+              <button 
+                className="cancel-btn" 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  cancelEditing(report.brand_id, report.size, field);
+                }}
+                disabled={isSaving}
+                title="Cancel changes"
+                style={{ touchAction: 'manipulation' }}
+              >
+                ✗
+              </button>
+            </div>
+          </div>
         </div>
       );
     }
@@ -239,8 +335,30 @@ const ReportsPage: React.FC = () => {
     return (
       <div 
         className="editable-cell clickable"
-        onClick={() => startEditing(report.brand_id, report.size, field, currentValue)}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          // Enhanced tablet support - force focus
+          setTimeout(() => {
+            startEditing(report.brand_id, report.size, field, currentValue);
+          }, 10);
+        }}
+        onTouchStart={(e) => {
+          // Better tablet support - handle touch start
+          e.preventDefault();
+        }}
+        onTouchEnd={(e) => {
+          // Handle tablet touch end
+          e.preventDefault();
+          e.stopPropagation();
+          startEditing(report.brand_id, report.size, field, currentValue);
+        }}
         title="Click to edit"
+        style={{ 
+          touchAction: 'manipulation',
+          WebkitTapHighlightColor: 'rgba(59, 130, 246, 0.2)',
+          cursor: 'pointer'
+        }}
       >
         {field === 'received_today' ? (
           currentValue > 0 ? (
@@ -249,8 +367,9 @@ const ReportsPage: React.FC = () => {
             <span className="zero-value">0</span>
           )
         ) : (
+          // For closed_balance, show normal values (not negative)
           currentValue > 0 ? (
-            <span className="negative-value">-{currentValue}</span>
+            <span>{currentValue}</span>
           ) : (
             <span className="zero-value">0</span>
           )
@@ -448,6 +567,222 @@ const ReportsPage: React.FC = () => {
 
   const clearSearch = () => {
     setSearchQuery('');
+  };
+
+  const exportProfitToExcel = async () => {
+    try {
+      // Show loading toast
+      const loadingToast = toast.loading('Preparing profit report...');
+      
+      // Get profit data from API - use corrected stock movements approach
+      // FIXED: Use getProfitSummary (stock_movements) instead of getDailyProfitReport (sale_items)
+      const profitResponse = await brandApi.getProfitSummary(
+        selectedDate,
+        selectedDate,
+        selectedBrand ? Number(selectedBrand) : undefined
+      );
+      
+      if (!profitResponse.success || !profitResponse.data) {
+        toast.dismiss(loadingToast);
+        toast.error('No profit data available for the selected date');
+        console.log('Profit response failed:', profitResponse);
+        return;
+      }
+      
+      const profitData = profitResponse.data;
+      
+      // Debug log to check profit data
+      console.log('Profit Summary data (stock movements):', profitData);
+      
+      // Map getProfitSummary data structure to match expected format
+      const mappedProfitData = {
+        summary: {
+          total_sales: profitData.overall_summary.total_sales,
+          total_profit: profitData.overall_summary.total_profit,
+          profit_margin: profitData.overall_summary.profit_margin,
+          items_sold: profitData.overall_summary.items_sold,
+        },
+        // Convert by_brand data to details format for Excel export
+        details: profitData.by_brand.map((brand: any, index: number) => ({
+          sale_id: `Brand-${index + 1}`,
+          brand_name: brand.brand_name,
+          size: brand.size,
+          quantity: brand.total_quantity,
+          selling_price: brand.total_sales / brand.total_quantity,
+          actual_price: brand.total_sales / brand.total_quantity - (brand.total_profit / brand.total_quantity),
+          profit_per_unit: brand.total_profit / brand.total_quantity,
+          total_profit: brand.total_profit,
+        })),
+      };
+      
+      console.log('Mapped profit data for Excel:', mappedProfitData);
+      
+      // Prepare Excel data
+      const worksheetData = [];
+      
+      // Add header information
+      worksheetData.push([
+        'PROFIT & LOSS REPORT',
+        '',
+        '',
+        '',
+        '',
+        '',
+        ''
+      ]);
+      worksheetData.push([
+        `Date: ${selectedDate}`,
+        '',
+        '',
+        '',
+        '',
+        '',
+        ''
+      ]);
+      worksheetData.push([
+        selectedBrand ? `Brand: ${brands.find(b => b.id.toString() === selectedBrand)?.name || 'All'}` : 'Brand: All Brands',
+        '',
+        '',
+        '',
+        '',
+        '',
+        ''
+      ]);
+      worksheetData.push([]); // Empty row
+      
+      // Add summary
+      worksheetData.push([
+        'SUMMARY',
+        '',
+        '',
+        '',
+        '',
+        '',
+        ''
+      ]);
+      worksheetData.push([
+        'Total Sales',
+        `₹${mappedProfitData.summary.total_sales.toLocaleString()}`,
+        '',
+        '',
+        '',
+        '',
+        ''
+      ]);
+      worksheetData.push([
+        'Total Profit',
+        `₹${mappedProfitData.summary.total_profit.toLocaleString()}`,
+        '',
+        '',
+        '',
+        '',
+        ''
+      ]);
+      worksheetData.push([
+        'Profit Margin',
+        `${mappedProfitData.summary.profit_margin.toFixed(2)}%`,
+        '',
+        '',
+        '',
+        '',
+        ''
+      ]);
+      worksheetData.push([
+        'Items Sold',
+        mappedProfitData.summary.items_sold.toString(),
+        '',
+        '',
+        '',
+        '',
+        ''
+      ]);
+      worksheetData.push([]); // Empty row
+      
+      // Add details header
+      worksheetData.push([
+        'Sale ID',
+        'Brand',
+        'Size',
+        'Quantity',
+        'Selling Price',
+        'Cost Price', 
+        'Profit per Unit',
+        'Total Profit'
+      ]);
+      
+      // Add sale details
+      if (mappedProfitData.details && mappedProfitData.details.length > 0) {
+        mappedProfitData.details.forEach((detail: {
+          sale_id: string;
+          brand_name: string;
+          size: string;
+          quantity: number;
+          selling_price: number;
+          actual_price: number;
+          profit_per_unit: number;
+          total_profit: number;
+        }) => {
+          // Debug log for each detail
+          console.log(`Sale ${detail.sale_id}: ${detail.brand_name} ${detail.size} - Selling: ₹${detail.selling_price}, Cost: ₹${detail.actual_price}, Profit: ₹${detail.profit_per_unit}`);
+          
+          worksheetData.push([
+            detail.sale_id,
+            detail.brand_name,
+            getSizeDisplayName(detail.size),
+            detail.quantity,
+            `₹${detail.selling_price.toLocaleString()}`,
+            detail.actual_price ? `₹${detail.actual_price.toLocaleString()}` : 'Not Set',
+            `₹${detail.profit_per_unit.toFixed(2)}`,
+            `₹${detail.total_profit.toFixed(2)}`
+          ]);
+        });
+      } else {
+        console.log('No sales details found in profit data');
+        worksheetData.push([
+          'No sales data found for this date',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          ''
+        ]);
+      }
+      
+      // Create workbook
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+      
+      // Set column widths
+      worksheet['!cols'] = [
+        { width: 12 }, // Sale ID
+        { width: 20 }, // Brand
+        { width: 10 }, // Size
+        { width: 12 }, // Quantity
+        { width: 15 }, // Selling Price
+        { width: 15 }, // Cost Price
+        { width: 15 }, // Profit per Unit
+        { width: 15 }  // Total Profit
+      ];
+      
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Profit Report');
+      
+      // Generate filename
+      const dateStr = selectedDate.replace(/-/g, '');
+      const brandStr = selectedBrand ? `_${brands.find(b => b.id.toString() === selectedBrand)?.name.replace(/\s+/g, '')}` : '';
+      const filename = `Profit_Report_${dateStr}${brandStr}.xlsx`;
+      
+      // Save file
+      XLSX.writeFile(workbook, filename);
+      
+      toast.dismiss(loadingToast);
+      toast.success(`Profit report exported as ${filename}`);
+      
+    } catch (error) {
+      console.error('Error exporting profit report:', error);
+      toast.error('Failed to export profit report. Please try again.');
+    }
   };
 
   const exportToExcel = async () => {
@@ -873,18 +1208,6 @@ const ReportsPage: React.FC = () => {
         }}
       />
       
-      <div className="reports-header">
-        <div className="reports-header-left">
-          <h1 className="page-title">Daily Stock Reports</h1>
-          <p className="reports-subtitle">
-            Comprehensive daily inventory analysis for {formatDate(selectedDate)}
-          </p>
-        </div>
-        <div className="reports-header-right">
-          {/* Download Excel button moved to filters section for better UX */}
-        </div>
-      </div>
-
       {/* Summary Cards */}
       <div className="grid grid-4">
         <div className="card summary-card opening-balance">
@@ -1131,6 +1454,25 @@ const ReportsPage: React.FC = () => {
               <button 
                 style={{
                   padding: '0.5rem 1rem',
+                  backgroundColor: '#059669',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}
+                onClick={exportProfitToExcel}
+                title="Download Profit & Loss Report"
+              >
+                📈 Download Profit Report
+              </button>
+              <button 
+                style={{
+                  padding: '0.5rem 1rem',
                   backgroundColor: '#f59e0b',
                   color: 'white',
                   border: 'none',
@@ -1318,11 +1660,19 @@ const ReportsPage: React.FC = () => {
                         {renderEditableCell(report, 'received_today')}
                       </td>
                       <td className="total-stock">{report.opening_balance + report.received_today}</td>
-                      <td className="closing-balance">{report.closed_balance}</td>
-                      <td className="sales-quantity">
-                        {renderEditableCell(report, 'sales_quantity')}
+                      <td className="closing-balance">
+                        {renderEditableCell(report, 'closed_balance')}
                       </td>
-                      <td className="rate">₹{report.rate.toLocaleString()}</td>
+                      <td className="sales-quantity">
+                        {report.sales_quantity < 0 ? (
+                          <span className="negative-value">{report.sales_quantity}</span>
+                        ) : report.sales_quantity > 0 ? (
+                          <span className="negative-value">{report.sales_quantity}</span>
+                        ) : (
+                          <span className="zero-value">0</span>
+                        )}
+                      </td>
+                      <td className="rate">₹{Math.round(report.rate).toLocaleString()}</td>
                       <td className="sales-amount">
                         {report.sales_amount > 0 ? (
                           <span className="sales-amount-value">₹{report.sales_amount.toLocaleString()}</span>
@@ -1345,8 +1695,8 @@ const ReportsPage: React.FC = () => {
                     <td><strong>{filteredTotals.total_stock}</strong></td>
                     <td><strong>{filteredTotals.closed_balance}</strong></td>
                     <td>
-                      <strong className="negative-value">
-                        {filteredTotals.sales_quantity > 0 ? `-${filteredTotals.sales_quantity}` : '0'}
+                      <strong>
+                        {filteredTotals.sales_quantity > 0 ? `${filteredTotals.sales_quantity}` : '0'}
                       </strong>
                     </td>
                     <td>-</td>

@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  bottom: 1rem;
   /* Ensure container doesn't interfere with touch events */
   pointer-events: auto;
   position: relative;
@@ -104,11 +104,25 @@
 }
 
 .summary-card.revenue {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
 }
 
 .summary-card.stock-value {
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+}
+
+.summary-card.profit {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: 2px solid #34d399;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+}
+
+.summary-card.profit h3,
+.summary-card.profit .value,
+.summary-card.profit .sub-value {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .summary-card.brands {
@@ -224,7 +238,66 @@
 }
 
 /* Tablet styles */
-@media (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px) {
+  .dashboard-summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  
+  .summary-card {
+    min-height: 120px;
+    padding: 1.25rem;
+  }
+  
+  .summary-card .value {
+    font-size: 1.75rem;
+  }
+  
+  /* Critical tablet fixes for quick filter buttons */
+  .quick-filter-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .quick-filter-btn {
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+    min-height: 52px;
+    min-width: 52px;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.3) !important;
+    border: 2px solid transparent;
+    position: relative;
+    z-index: 10;
+    /* iOS Safari specific */
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  
+  .quick-filter-btn:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+  
+  .quick-filter-btn:active {
+    transform: scale(0.95) !important;
+    background-color: rgba(59, 130, 246, 0.1) !important;
+    transition: all 0.1s ease !important;
+  }
+  
+  .quick-filter-btn.active:active {
+    background-color: rgba(45, 100, 220, 0.2) !important;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
   .dashboard-summary-cards {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.25rem;
@@ -253,43 +326,22 @@
     font-size: 0.9rem;
     text-align: center;
     border-radius: 8px;
-    min-height: 48px; /* Enhanced touch-friendly size */
+    min-height: 48px;
     min-width: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Enhanced mobile interactions */
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(59, 130, 246, 0.2);
     position: relative;
-    overflow: hidden;
+    cursor: pointer;
+    /* Remove overflow to prevent pseudo-element issues */
+    overflow: visible;
   }
   
-  /* Enhanced active state for mobile */
   .quick-filter-btn:active {
     transform: scale(0.98);
     transition: transform 0.1s ease;
-  }
-  
-  /* Add ripple effect for better touch feedback */
-  .quick-filter-btn::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease;
-    pointer-events: none; /* Critical fix: Don't block touch events */
-    z-index: -1; /* Ensure it stays behind the content */
-  }
-  
-  .quick-filter-btn:active::after {
-    width: 120px;
-    height: 120px;
   }
   
   .dashboard-summary-cards {

@@ -167,13 +167,7 @@ const TpChargesPage: React.FC = () => {
         }}
       />
       
-      <div className="page-header">
-        <div className="page-header-left">
-          <h1 className="page-title">TP Charges Management</h1>
-          <p className="page-subtitle">
-            Track daily third-party charges and expenses
-          </p>
-        </div>
+      <div className="page-header" style={{ justifyContent: 'flex-end' }}>
         <div className="page-header-right">
           <button 
             className="btn btn-primary"

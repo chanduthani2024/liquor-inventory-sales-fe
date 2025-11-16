@@ -1,72 +1,100 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Navigation.css';
 
-const Navigation: React.FC = () => {
+export interface NavigationRef {
+  toggleSidebar: () => void;
+  closeSidebar: () => void;
+  isSidebarOpen: boolean;
+}
+
+const Navigation = forwardRef<NavigationRef>((props, ref) => {
   const location = useLocation();
-  const { user, logout } = useAuth();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { logout } = useAuth();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Changed to false by default
+
+  // Debug logging
+  React.useEffect(() => {
+    console.log('🍔 Navigation component mounted');
+    console.log('📱 Screen size:', window.innerWidth + 'x' + window.innerHeight);
+    console.log('🔘 Sidebar open:', isSidebarOpen);
+  }, [isSidebarOpen]);
 
   const navItems = [
     { path: '/', label: 'Dashboard', icon: '📊' },
     { path: '/brands', label: 'Brands', icon: '🏷️' },
     { path: '/stock', label: 'Stock', icon: '📦' },
     { path: '/sales', label: 'Sales', icon: '💰' },
+    { path: '/invoices', label: 'Invoice Management', icon: '📄' },
     // { path: '/tp-charges', label: 'TP Charges', icon: '💳' },
     { path: '/reports', label: 'Reports', icon: '📋' },
   ];
+
+  const toggleSidebar = () => {
+    console.log('🍔 Toggle sidebar clicked! Current state:', isSidebarOpen);
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
 
   const handleLogout = () => {
     logout();
   };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  // Expose methods to parent components
+  useImperativeHandle(ref, () => ({
+    toggleSidebar,
+    closeSidebar,
+    isSidebarOpen
+  }));
 
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
-  };
-
-  // Close mobile menu when route changes
+  // Close sidebar when route changes
   React.useEffect(() => {
-    closeMobileMenu();
+    closeSidebar();
   }, [location.pathname]);
 
   return (
     <>
-      {/* Mobile Menu Toggle Button */}
-      <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
-        {isMobileMenuOpen ? '✕' : '☰'}
-      </button>
-
-      {/* Mobile Menu Overlay */}
+      {/* Sidebar Overlay */}
       <div 
-        className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-        onClick={closeMobileMenu}
+        className={`sidebar-overlay ${isSidebarOpen ? 'active' : ''}`}
+        onClick={closeSidebar}
       />
 
-      <nav className={`navigation ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+      <nav className={`navigation ${isSidebarOpen ? 'sidebar-open' : ''}`}>
         <div className="nav-header">
-          <h2>🍷 Power House</h2>
-          <div className="user-info">
-            <span className="user-welcome">Welcome, {user?.username}</span>
+          <div className="nav-header-content">
+            <h2>🍷 Power House</h2>
+            <button 
+              className="nav-close-btn" 
+              onClick={closeSidebar}
+              title="Close Menu"
+              aria-label="Close navigation menu"
+            >
+              ✕
+            </button>
           </div>
         </div>
-      <ul className="nav-list">
-        {navItems.map((item) => (
-          <li key={item.path} className="nav-item">
-            <Link
-              to={item.path}
-              className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+        <ul className="nav-list">
+          {navItems.map((item, index) => (
+            <li 
+              key={item.path} 
+              className="nav-item"
+              style={{ '--item-index': index } as React.CSSProperties}
             >
-              <span className="nav-icon">{item.icon}</span>
-              <span className="nav-label">{item.label}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+              <Link
+                to={item.path}
+                className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+              >
+                <span className="nav-icon">{item.icon}</span>
+                <span className="nav-label">{item.label}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
         <div className="nav-footer">
           <button className="logout-btn" onClick={handleLogout}>
             <span className="nav-icon">🚪</span>
@@ -76,6 +104,6 @@ const Navigation: React.FC = () => {
       </nav>
     </>
   );
-};
+});
 
 export default Navigation;

@@ -261,9 +261,6 @@ const Sales: React.FC = () => {
   if (loading) {
     return (
       <div className="sales-container">
-        <div className="page-header">
-          <h1 className="page-title">Quick Sales</h1>
-        </div>
         <div className="loading">Loading sales data...</div>
       </div>
     );
@@ -296,21 +293,18 @@ const Sales: React.FC = () => {
         }}
       />
       
-      <div className="page-header">
-        <h1 className="page-title">Quick Sales</h1>
-        <div className="sales-stats">
-          <div className="stat-card">
-            <div className="stat-value">₹{cartTotal.toFixed(2)}</div>
-            <div className="stat-label">Cart Total</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-value">{cartItems.length}</div>
-            <div className="stat-label">Items in Cart</div>
-          </div>
-          <div className={`stat-card payment-indicator ${paymentMethod}`}>
-            <div className="stat-value">{paymentMethod === 'cash' ? '💰' : '💳'}</div>
-            <div className="stat-label">{paymentMethod.toUpperCase()}</div>
-          </div>
+      <div className="sales-stats">
+        <div className="stat-card">
+          <div className="stat-value">₹{cartTotal.toFixed(2)}</div>
+          <div className="stat-label">Cart Total</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-value">{cartItems.length}</div>
+          <div className="stat-label">Items in Cart</div>
+        </div>
+        <div className={`stat-card payment-indicator ${paymentMethod}`}>
+          <div className="stat-value">{paymentMethod === 'cash' ? '💰' : '💳'}</div>
+          <div className="stat-label">{paymentMethod.toUpperCase()}</div>
         </div>
       </div>
 

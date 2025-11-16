@@ -1,23 +1,407 @@
 /* Reports Page Styles */
+.reports-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  min-height: calc(100vh - 120px);
+}
+
 .reports-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.reports-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.reports-header p {
+  margin: 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+/* Profit Reports Specific Styles */
+.summary-card {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+  pointer-events: none;
+}
+
+.summary-card h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stat-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #e5e7eb;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
 }
 
-.reports-header-left h1 {
-  margin: 0;
+.stat-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+.stat-value {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.stat-value.profit {
+  color: #fbbf24;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.details-table-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.details-table-card h3 {
+  margin: 0 0 1rem 0;
   color: #1f2937;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.profit-positive {
+  color: #059669;
+  font-weight: 600;
+}
+
+.profit-zero {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.no-data-card {
+  background: #f9fafb;
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.no-data-card p {
+  margin: 0.5rem 0;
+  color: #6b7280;
+}
+
+.info-card {
+  background: #f0f9ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.info-card h4 {
+  margin: 0 0 1rem 0;
+  color: #1d4ed8;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.info-card ul {
+  margin: 0;
+  padding-left: 1.5rem;
+  color: #374151;
+}
+
+.info-card li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.generate-btn {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  font-size: 0.875rem;
+  min-width: 160px;
+  position: relative;
+  overflow: hidden;
+}
+
+.generate-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.generate-btn:hover::before {
+  left: 100%;
+}
+
+.generate-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+.generate-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Profit Reports Filters */
+.reports-filters {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  position: relative;
+}
+
+.reports-filters::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 16px 16px 0 0;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.filter-group select,
+.filter-group input[type="date"] {
+  padding: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  background: white;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #6b7280 50%), 
+                    linear-gradient(135deg, #6b7280 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(1rem + 2px), 
+                       calc(100% - 15px) calc(1rem + 2px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 2.5rem;
+}
+
+.filter-group input[type="date"] {
+  background-image: none;
+  padding-right: 1rem;
+}
+
+.filter-group select:focus,
+.filter-group input[type="date"]:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.filter-group select:hover:not(:focus),
+.filter-group input[type="date"]:hover:not(:focus) {
+  border-color: #9ca3af;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive adjustments for filters */
+@media (max-width: 1024px) {
+  .filter-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .reports-container {
+    padding: 1rem;
+  }
+  
+  .reports-header {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .reports-header h1 {
+    font-size: 2rem;
+  }
+  
+  .reports-filters {
+    padding: 1.5rem;
+  }
+  
+  .filter-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .generate-btn {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 1rem;
+  }
+  
+  .summary-card {
+    padding: 1.5rem;
+  }
+  
+  .summary-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reports Results Container */
+.reports-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Table Styling for Profit Reports */
+.table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  background: white;
+}
+
+.reports-table th {
+  background: #f8fafc;
+  color: #374151;
+  font-weight: 600;
+  padding: 1rem 0.75rem;
+  text-align: left;
+  border-bottom: 2px solid #e5e7eb;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.reports-table td {
+  padding: 0.875rem 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.reports-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.reports-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .reports-table {
+    font-size: 0.75rem;
+  }
+  
+  .reports-table th,
+  .reports-table td {
+    padding: 0.5rem 0.375rem;
+  }
+  
+  .reports-table th {
+    font-size: 0.7rem;
+  }
+}
+
+.reports-header-left h1,
+.page-title {
+  margin: 0;
+  color: white !important;
   font-size: 2rem;
   font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .reports-subtitle {
   margin: 0.5rem 0 0 0;
-  color: #6b7280;
+  color: white !important;
+  opacity: 0.9;
   font-size: 1rem;
   font-weight: 400;
 }
@@ -231,12 +615,13 @@
 }
 
 .reports-table td {
-  padding: 0.5rem 0.375rem; /* Reduced padding */
+  padding: 0.75rem 0.375rem; /* Increased padding for better height */
   border-bottom: 1px solid #e5e7eb;
   vertical-align: middle;
   text-align: center; /* Center align data */
   font-size: 0.75rem;
-  line-height: 1.3;
+  line-height: 1.4;
+  min-height: 60px; /* Minimum row height for better visibility */
 }
 
 .even-row {
@@ -251,16 +636,16 @@
   background-color: #f3f4f6;
 }
 
-/* Column Width Controls */
-.reports-table th:nth-child(1), .reports-table td:nth-child(1) { width: 20%; } /* Name of the Brand */
-.reports-table th:nth-child(2), .reports-table td:nth-child(2) { width: 8%; }  /* Size */
+/* Column Width Controls - Optimized for tablet resolution */
+.reports-table th:nth-child(1), .reports-table td:nth-child(1) { width: 18%; } /* Name of the Brand */
+.reports-table th:nth-child(2), .reports-table td:nth-child(2) { width: 10%; } /* Size - moved left, increased */
 .reports-table th:nth-child(3), .reports-table td:nth-child(3) { width: 8%; }  /* O.B. */
-.reports-table th:nth-child(4), .reports-table td:nth-child(4) { width: 10%; } /* Received */
+.reports-table th:nth-child(4), .reports-table td:nth-child(4) { width: 12%; } /* Received - increased */
 .reports-table th:nth-child(5), .reports-table td:nth-child(5) { width: 10%; } /* Total */
 .reports-table th:nth-child(6), .reports-table td:nth-child(6) { width: 8%; }  /* C.B. */
-.reports-table th:nth-child(7), .reports-table td:nth-child(7) { width: 10%; } /* Sales */
+.reports-table th:nth-child(7), .reports-table td:nth-child(7) { width: 12%; } /* Sales - increased */
 .reports-table th:nth-child(8), .reports-table td:nth-child(8) { width: 10%; } /* Rate */
-.reports-table th:nth-child(9), .reports-table td:nth-child(9) { width: 16%; } /* Sales Amount */
+.reports-table th:nth-child(9), .reports-table td:nth-child(9) { width: 12%; } /* Sales Amount */
 
 /* Cell Specific Styles */
 .brand-name {
@@ -562,17 +947,50 @@
   /* Table improvements for tablet */
   .reports-table {
     font-size: 0.8rem;
+    width: 100%; /* Force full width on tablets */
+    table-layout: fixed; /* Fix layout for consistent column widths */
   }
   
   .reports-table th {
     padding: 0.75rem 0.5rem;
     font-size: 0.75rem;
+    text-align: center; /* Ensure headers are centered on tablets */
   }
   
   .reports-table td {
-    padding: 0.75rem 0.5rem;
+    padding: 1rem 0.5rem; /* Increased padding for tablets */
     font-size: 0.8rem;
+    min-height: 70px; /* Larger row height for tablets */
   }
+  
+  /* Enhanced editable cell heights and alignment for tablets */
+  .reports-table .received-today,
+  .reports-table .closing-balance {
+    min-height: 75px; /* Even larger for editable cells on tablets */
+    padding: 0; /* Remove all padding to fix alignment */
+    position: relative;
+    text-align: center;
+  }
+  
+  .reports-table .received-today .editable-cell,
+  .reports-table .closing-balance .editable-cell {
+    min-height: 75px; /* Match the cell height */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 8px; /* Consistent internal padding */
+  }
+  
+  /* Ensure all table rows have consistent height on tablets */
+  .reports-table tbody tr {
+    min-height: 70px;
+  }
+  
+  /* Fix column widths specifically for tablets */
+  .reports-table th:nth-child(4), .reports-table td:nth-child(4) { width: 14%; } /* Received - larger */
+  .reports-table th:nth-child(7), .reports-table td:nth-child(7) { width: 14%; } /* Sales - larger */
   
   /* Editable cells - better touch targets */
   .editable-cell.clickable {
@@ -699,7 +1117,7 @@
 /* Inline Editing Styles */
 .editable-cell {
   position: relative;
-  min-height: 40px; /* Increased from 28px */
+  min-height: 50px; /* Increased for better tablet touch */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -708,11 +1126,19 @@
 
 .editable-cell.clickable {
   cursor: pointer;
-  padding: 8px 10px; /* Increased padding for better click target */
-  border-radius: 4px;
+  padding: 12px 14px; /* Increased padding for better touch target */
+  border-radius: 6px;
   transition: all 0.2s ease;
   background: transparent;
-  min-height: 44px; /* Larger click target */
+  min-height: 52px; /* Larger click target for tablets */
+  /* Enhanced tablet support */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(59, 130, 246, 0.2);
+  user-select: none;
+  -webkit-user-select: none;
+  /* Better positioning */
+  position: relative;
+  z-index: 1;
 }
 
 .editable-cell.clickable:hover {
@@ -721,41 +1147,63 @@
   transform: scale(1.02); /* Subtle scale effect */
 }
 
+.editable-cell.clickable:active {
+  background-color: #bfdbfe;
+  transform: scale(0.98);
+  transition: all 0.1s ease;
+}
+
 .editable-cell.clickable .edit-icon {
-  opacity: 0.3; /* Make slightly visible by default */
-  font-size: 0.7rem; /* Slightly larger */
-  margin-left: 4px;
+  opacity: 0.4; /* Make slightly visible by default */
+  font-size: 0.75rem; /* Slightly larger */
+  margin-left: 6px;
   transition: opacity 0.2s ease;
   color: #0ea5e9; /* Blue color to match hover */
 }
 
 .editable-cell.clickable:hover .edit-icon {
-  opacity: 0.8; /* More visible on hover */
+  opacity: 0.9; /* More visible on hover */
 }
 
 .editable-cell.editing {
-  padding: 4px; /* Increased padding */
+  padding: 6px; /* Increased padding */
   background: #fff;
   border: 2px solid #3b82f6; /* Thicker border */
-  border-radius: 6px;
-  box-shadow: 0 4px 8px -2px rgb(0 0 0 / 0.15); /* Better shadow */
+  border-radius: 8px;
+  box-shadow: 0 6px 12px -2px rgb(0 0 0 / 0.2); /* Better shadow */
+  min-height: 60px; /* Larger editing area */
+  z-index: 10; /* Above other elements */
+}
+
+.edit-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .inline-edit-input {
-  width: 80px; /* Increased from 60px */
-  padding: 6px 8px; /* Increased padding */
+  width: 90px; /* Increased from 80px */
+  padding: 8px 12px; /* Increased padding */
   border: 1px solid #d1d5db;
-  border-radius: 4px;
-  font-size: 0.8rem; /* Slightly larger font */
+  border-radius: 6px;
+  font-size: 0.85rem; /* Slightly larger font */
   text-align: center;
   background: white;
-  min-height: 32px; /* Set minimum height */
+  min-height: 40px; /* Larger minimum height */
+  /* Enhanced tablet support */
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: text;
 }
 
 .inline-edit-input:focus {
   outline: none;
   border-color: #3b82f6;
-  box-shadow: 0 0 0 1px #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
 .inline-edit-input:disabled {
@@ -763,106 +1211,173 @@
   opacity: 0.6;
 }
 
-.validation-hint {
-  font-size: 0.7rem;
-  color: #6b7280;
-  margin-top: 2px;
-  padding: 0 2px;
-  text-align: center;
-  font-weight: 500;
-  background: #f3f4f6;
-  border-radius: 3px;
-  border: 1px solid #d1d5db;
-}
-
-.edit-controls {
+.edit-action-buttons {
   display: flex;
-  gap: 2px;
-  margin-left: 4px;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 .save-btn, .cancel-btn {
-  width: 24px; /* Increased from 18px */
-  height: 24px; /* Increased from 18px */
+  width: 32px; /* Increased for better touch */
+  height: 32px; /* Increased for better touch */
   border: none;
-  border-radius: 4px;
-  font-size: 0.7rem; /* Slightly larger */
+  border-radius: 6px;
+  font-size: 0.85rem; /* Larger font */
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  /* Enhanced tablet support */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  min-width: 32px;
+  min-height: 32px;
 }
 
 .save-btn {
   background-color: #10b981;
   color: white;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
 }
 
 .save-btn:hover:not(:disabled) {
   background-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.4);
+}
+
+.save-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
 }
 
 .save-btn:disabled {
   background-color: #9ca3af;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .cancel-btn {
   background-color: #ef4444;
   color: white;
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
 }
 
 .cancel-btn:hover:not(:disabled) {
   background-color: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.4);
+}
+
+.cancel-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
 }
 
 .cancel-btn:disabled {
   background-color: #9ca3af;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* Enhanced table cell styling for inline editing */
 .reports-table .received-today,
-.reports-table .sales-quantity {
+.reports-table .closing-balance {
   position: relative;
-  padding: 0;
-  min-height: 50px; /* Increased minimum height */
+  padding: 0; /* Remove padding for editable cells */
+  min-height: 65px; /* Increased minimum height for editable cells */
+  text-align: center;
+  vertical-align: middle;
 }
 
 .reports-table .received-today .editable-cell,
-.reports-table .sales-quantity .editable-cell {
+.reports-table .closing-balance .editable-cell {
   width: 100%;
-  min-height: 50px; /* Increased from 40px */
+  min-height: 65px; /* Increased from 50px for better editing experience */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Sales quantity column styling - ensure proper centering */
+.reports-table .sales-quantity {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0.75rem 0.375rem;
 }
 
 /* Add visual feedback for editable columns */
 .reports-table thead th:nth-child(4),
-.reports-table thead th:nth-child(7) {
+.reports-table thead th:nth-child(6) {
   position: relative;
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); /* Light blue background */
 }
 
 .reports-table thead th:nth-child(4)::after,
-.reports-table thead th:nth-child(7)::after {
+.reports-table thead th:nth-child(6)::after {
   content: "✏️";
-  font-size: 0.75rem;
-  opacity: 0.7; /* More visible */
+  font-size: 0.8rem;
+  opacity: 0.8; /* More visible */
   margin-left: 4px;
 }
 
 /* Add subtle background to editable data cells */
 .reports-table tbody td:nth-child(4),
-.reports-table tbody td:nth-child(7) {
+.reports-table tbody td:nth-child(6) {
   background-color: #fafbfc; /* Very light background */
+  position: relative;
 }
 
 .reports-table tbody tr:hover td:nth-child(4),
-.reports-table tbody tr:hover td:nth-child(7) {
+.reports-table tbody tr:hover td:nth-child(6) {
   background-color: #f0f9ff; /* Light blue on hover */
 }
 
-/* Pagination Styles */
+/* Removed blue dot indicators as requested */
+
+  /* Enhanced visual feedback for tablet users */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .reports-table tbody td:nth-child(4),
+  .reports-table tbody td:nth-child(6) {
+    background: linear-gradient(135deg, #fafbfc 0%, #f0f9ff 100%);
+    border: 1px solid rgba(59, 130, 246, 0.1);
+  }
+  
+  /* Removed tablet blue dot indicators */
+  
+  .reports-table tbody tr:hover td:nth-child(4),
+  .reports-table tbody tr:hover td:nth-child(6) {
+    background: linear-gradient(135deg, #e0f2fe 0%, #bfdbfe 100%);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+}
+
+/* Desktop-specific: Ensure proper header alignment */
+@media (min-width: 1025px) {
+  .reports-table th {
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  /* Specifically ensure Received and Sales headers are centered on desktop */
+  .reports-table th:nth-child(4), /* Received */
+  .reports-table th:nth-child(7) { /* Sales */
+    text-align: center;
+    padding: 0.5rem 0.375rem;
+  }
+  
+  /* Desktop: Remove any forced alignment from tablet overrides */
+  .reports-table .received-today,
+  .reports-table .closing-balance {
+    text-align: center;
+  }
+}/* Pagination Styles */
 .pagination-container {
   display: flex;
   justify-content: space-between;

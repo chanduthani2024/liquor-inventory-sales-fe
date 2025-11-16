@@ -1,13 +1,33 @@
 import axios from 'axios';
-import { Brand, Stock, Sale, CreateSale, DashboardData, StockMovement, CreateStockReceipt, AdjustStock, ReportDefect, StockReport, TpCharge, CreateTpCharge, UpdateTpCharge, RegisterData, LoginData, AuthResponse, ManualStockEntry, CashReconciliation, CreateCashReconciliation, UpdateCashReconciliation } from '../types';
+import { Brand, BrandPriceHistory, Stock, Sale, CreateSale, DashboardData, StockMovement, CreateStockReceipt, AdjustStock, ReportDefect, StockReport, TpCharge, CreateTpCharge, UpdateTpCharge, RegisterData, LoginData, AuthResponse, ManualStockEntry, CashReconciliation, CreateCashReconciliation, UpdateCashReconciliation } from '../types';
 
-const API_BASE_URL = 'http://localhost:3001';
+// Dynamic API base URL detection
+const getApiBaseUrl = () => {
+  // If accessing from network (not localhost), use the same host for API
+  const currentHost = window.location.hostname;
+  
+  if (currentHost === 'localhost' || currentHost === '127.0.0.1') {
+    return 'http://localhost:3001';
+  } else {
+    // Use the same IP as the frontend but port 3001 for backend
+    return `http://${currentHost}:3001`;
+  }
+};
+
+const API_BASE_URL = getApiBaseUrl();
+
+console.log('🔗 API Base URL:', API_BASE_URL);
+console.log('🌐 Current host:', window.location.hostname);
+console.log('📱 User Agent:', navigator.userAgent);
+console.log('📐 Screen size:', `${window.screen.width}x${window.screen.height}`);
+console.log('🖥️ Viewport size:', `${window.innerWidth}x${window.innerHeight}`);
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 10000, // 10 second timeout for network requests
 });
 
 // Brand APIs
@@ -44,6 +64,43 @@ export const brandApi = {
   
   getByAlcoholType: async (alcoholTypeId: number): Promise<Brand[]> => {
     const response = await api.get(`/brands/by-alcohol-type/${alcoholTypeId}`);
+    return response.data;
+  },
+
+  // Price History APIs
+  getPriceHistory: async (brandId?: number, size?: string, limit?: number): Promise<{success: boolean, data: BrandPriceHistory[]}> => {
+    const params = new URLSearchParams();
+    if (brandId) params.append('brandId', brandId.toString());
+    if (size) params.append('size', size);
+    if (limit) params.append('limit', limit.toString());
+    
+    const response = await api.get(`/brands/price-history/all?${params.toString()}`);
+    return response.data;
+  },
+
+  getBrandPriceHistory: async (brandId: number, size?: string): Promise<{success: boolean, data: BrandPriceHistory[]}> => {
+    const params = size ? `?size=${size}` : '';
+    const response = await api.get(`/brands/${brandId}/price-history${params}`);
+    return response.data;
+  },
+
+  // Profit Reports APIs
+  getDailyProfitReport: async (date?: string, brandId?: number): Promise<{success: boolean, data: any}> => {
+    const params = new URLSearchParams();
+    if (date) params.append('date', date);
+    if (brandId) params.append('brandId', brandId.toString());
+    
+    const response = await api.get(`/brands/profit-report/daily?${params.toString()}`);
+    return response.data;
+  },
+
+  getProfitSummary: async (startDate?: string, endDate?: string, brandId?: number): Promise<{success: boolean, data: any}> => {
+    const params = new URLSearchParams();
+    if (startDate) params.append('startDate', startDate);
+    if (endDate) params.append('endDate', endDate);
+    if (brandId) params.append('brandId', brandId.toString());
+    
+    const response = await api.get(`/brands/profit-report/summary?${params.toString()}`);
     return response.data;
   },
 };

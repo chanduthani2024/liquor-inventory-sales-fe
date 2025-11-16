@@ -259,32 +259,71 @@
 
 /* CRITICAL TABLET FIXES - This is the key range where buttons don't work */
 @media (min-width: 768px) and (max-width: 1024px) {
+  /* CRITICAL: Fix layout to use full width */
+  .App {
+    display: block !important;
+    width: 100% !important;
+  }
+  
+  .main-content {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 80px 0.5rem 1rem 0.5rem !important; /* Reduced horizontal padding for more table width */
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  .page-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 0.25rem !important; /* Minimal padding for maximum table width */
+  }
+  
   /* Force all interactive elements to work properly on tablets */
   button, .btn, input[type="button"], input[type="submit"], 
-  .nav-link, .brand-card, .size-item, .cart-item, .clickable {
+  .nav-link, .brand-card, .size-item, .cart-item, .clickable, .quick-filter-btn {
     /* Essential properties for tablet touch */
-    min-height: 48px;
-    min-width: 48px;
-    padding: 12px 16px;
-    font-size: 16px;
+    min-height: 52px !important;
+    min-width: 52px !important;
+    padding: 12px 16px !important;
+    font-size: 16px !important;
     cursor: pointer !important;
     pointer-events: auto !important;
     touch-action: manipulation !important;
-    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.2) !important;
-    user-select: none;
-    -webkit-user-select: none;
-    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.3) !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    transition: all 0.2s ease !important;
     /* iOS Safari specific fixes */
-    -webkit-appearance: none;
-    appearance: none;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    border: none !important;
+    outline: none !important;
+    position: relative !important;
+    z-index: 10 !important;
+    /* Ensure proper display */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  /* Specific fixes for quick filter buttons */
+  .quick-filter-btn {
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
   }
   
   /* Active state feedback for tablets */
-  button:active, .btn:active, .brand-card:active, .size-item:active {
-    transform: scale(0.95) !important;
-    opacity: 0.8 !important;
-    background-color: rgba(59, 130, 246, 0.1) !important;
+  button:active, .btn:active, .brand-card:active, .size-item:active, .quick-filter-btn:active {
+    transform: scale(0.92) !important;
+    opacity: 0.9 !important;
+    background-color: rgba(59, 130, 246, 0.2) !important;
     transition: all 0.1s ease !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
   }
   
   /* Ensure form elements work */
@@ -294,20 +333,176 @@
     font-size: 16px;
     touch-action: manipulation;
     -webkit-appearance: none;
+    appearance: none;
   }
   
-  /* Fix for editable table cells */
+  /* Enhanced fix for editable table cells on tablets */
   .editable-cell.clickable {
-    min-height: 44px;
-    min-width: 60px;
+    min-height: 56px !important;
+    min-width: 80px !important;
     cursor: pointer !important;
     touch-action: manipulation !important;
-    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.2);
+    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.3) !important;
+    /* Force proper positioning and interaction */
+    position: relative !important;
+    z-index: 5 !important;
+    /* Enhanced tablet touch support */
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    /* Better visual feedback */
+    transition: all 0.15s ease !important;
+  }
+  
+  .editable-cell.clickable:hover {
+    background-color: rgba(59, 130, 246, 0.08) !important;
+    border: 1px dashed #3b82f6 !important;
   }
   
   .editable-cell.clickable:active {
-    background-color: rgba(59, 130, 246, 0.1) !important;
-    transform: scale(0.98);
+    background-color: rgba(59, 130, 246, 0.15) !important;
+    transform: scale(0.96) !important;
+    border: 2px solid #3b82f6 !important;
+  }
+  
+  /* Enhanced editing mode for tablets */
+  .editable-cell.editing {
+    min-height: 64px !important;
+    padding: 8px !important;
+    z-index: 15 !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  .inline-edit-input {
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    border: 2px solid #3b82f6 !important;
+    border-radius: 8px !important;
+    /* Force proper input behavior */
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    touch-action: manipulation !important;
+    cursor: text !important;
+  }
+  
+  .inline-edit-input:focus {
+    outline: none !important;
+    border-color: #1d4ed8 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+  }
+  
+  /* Enhanced action buttons for tablets */
+  .save-btn, .cancel-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  
+  .save-btn:active, .cancel-btn:active {
+    transform: scale(0.92) !important;
+    transition: transform 0.1s ease !important;
+  }
+  
+  /* Enhanced row heights for Reports table on tablets */
+  .reports-table tbody tr {
+    min-height: 70px !important;
+  }
+  
+  .reports-table tbody td {
+    padding: 1rem 0.5rem !important;
+    min-height: 70px !important;
+    vertical-align: middle !important;
+  }
+  
+  /* Extra height for editable cells on tablets */
+  .reports-table .received-today,
+  .reports-table .closing-balance {
+    min-height: 75px !important;
+  }
+  
+  /* CRITICAL: Fix table width and editable cell alignment on tablets */
+  .table-container {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  .reports-table {
+    width: 100% !important;
+    min-width: 100% !important;
+    table-layout: fixed !important;
+  }
+  
+  /* TABLET-SPECIFIC: Fix editable cell alignment issues */
+  .reports-table .received-today .editable-cell,
+  .reports-table .closing-balance .editable-cell {
+    position: relative !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* TABLET-SPECIFIC: Ensure proper centering of content within editable cells */
+  .editable-cell.clickable {
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: row !important;
+    gap: 4px !important;
+  }
+  
+  /* TABLET-SPECIFIC: Fix pencil icon positioning */
+  .editable-cell.clickable .edit-icon {
+    position: relative !important;
+    margin-left: 4px !important;
+    margin-right: 0 !important;
+  }
+  
+  /* TABLET-SPECIFIC: Ensure headers are properly centered */
+  .reports-table th {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+  
+  /* TABLET-SPECIFIC: Fix specific header columns that might be left-aligned */
+  .reports-table th:nth-child(4), /* Received */
+  .reports-table th:nth-child(6) { /* Closing Balance */
+    text-align: center !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  /* Override any conflicting styles */
+  .quick-filter-buttons {
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+  }
+  
+  .quick-filter-buttons * {
+    pointer-events: auto !important;
+  }
+  
+  /* Ensure dashboard cards use full width */
+  .dashboard-summary-cards {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .card {
+    width: 100% !important;
+    margin: 0 0 1rem 0 !important;
+    box-sizing: border-box !important;
   }
 }
 
@@ -316,7 +511,10 @@
     font-size: 18px;
   }
   
+  /* Remove the forced margin since sidebar is now collapsible */
   .main-content {
-    margin-left: 250px !important;
+    margin-left: 0 !important;
+    padding: 4rem 2rem 2rem 2rem !important;
+    width: 100% !important;
   }
 }

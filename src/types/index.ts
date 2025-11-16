@@ -11,6 +11,7 @@ export interface AlcoholType {
 export interface Brand {
   id: number;
   name: string;
+  brand_number?: string | null;
   price_90ml: number | null;
   price_180ml: number | null;
   price_330ml: number | null;
@@ -20,11 +21,34 @@ export interface Brand {
   price_750ml: number | null;
   price_1l: number | null;
   price_2l: number | null;
+  // Actual/Cost prices (what owner pays to supplier)
+  actual_price_90ml?: number | null;
+  actual_price_180ml?: number | null;
+  actual_price_330ml?: number | null;
+  actual_price_375ml?: number | null;
+  actual_price_500ml?: number | null;
+  actual_price_650ml?: number | null;
+  actual_price_750ml?: number | null;
+  actual_price_1l?: number | null;
+  actual_price_2l?: number | null;
   description?: string;
   alcohol_type_id?: number | null;
   alcoholType?: AlcoholType;
   created_at: string;
   updated_at: string;
+}
+
+export interface BrandPriceHistory {
+  id: number;
+  brand_id: number;
+  size: string;
+  old_price: number | null;
+  new_price: number | null;
+  changed_by: number | null;
+  notes?: string;
+  changed_at: string;
+  brand?: Brand;
+  user?: User;
 }
 
 export interface Stock {
@@ -76,6 +100,8 @@ export interface DashboardData {
     totalBrands: number;
     totalStockItems: number;
     lowStockCount: number;
+    totalProfit?: number;
+    profitMargin?: number;
   };
   topSellingBrands: any[];
   salesByBrand: any[];
