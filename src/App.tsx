@@ -39,7 +39,7 @@ const AppContent: React.FC = () => {
       case '/sales': return 'Sales';
       case '/tp-charges': return 'TP Charges';
       case '/reports': return 'Reports';
-      case '/invoices': return 'Invoice Management';
+      // case '/invoices': return 'Invoice Management';
       default: return 'Power House';
     }
   };

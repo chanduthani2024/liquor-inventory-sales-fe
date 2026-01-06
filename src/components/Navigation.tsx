@@ -26,7 +26,7 @@ const Navigation = forwardRef<NavigationRef>((props, ref) => {
     { path: '/brands', label: 'Brands', icon: '🏷️' },
     { path: '/stock', label: 'Stock', icon: '📦' },
     { path: '/sales', label: 'Sales', icon: '💰' },
-    { path: '/invoices', label: 'Invoice Management', icon: '📄' },
+    // { path: '/invoices', label: 'Invoice Management', icon: '📄' },
     // { path: '/tp-charges', label: 'TP Charges', icon: '💳' },
     { path: '/reports', label: 'Reports', icon: '📋' },
   ];

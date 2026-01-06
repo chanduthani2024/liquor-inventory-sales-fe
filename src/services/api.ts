@@ -4,14 +4,15 @@ import { Brand, BrandPriceHistory, Stock, Sale, CreateSale, DashboardData, Stock
 // Dynamic API base URL detection
 const getApiBaseUrl = () => {
   // If accessing from network (not localhost), use the same host for API
-  const currentHost = window.location.hostname;
+  // const currentHost = window.location.hostname;
   
-  if (currentHost === 'localhost' || currentHost === '127.0.0.1') {
-    return 'http://localhost:3001';
-  } else {
-    // Use the same IP as the frontend but port 3001 for backend
-    return `http://${currentHost}:3001`;
-  }
+  // if (currentHost === 'localhost' || currentHost === '127.0.0.1') {
+  //   return 'http://43.204.130.122:3001';
+  // } else {
+  //   // Use the same IP as the frontend but port 3001 for backend
+  //   return `http://${currentHost}:3001`;
+  // }
+  return 'http://43.204.130.122:3001';
 };
 
 const API_BASE_URL = getApiBaseUrl();

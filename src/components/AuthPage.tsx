@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { authApi } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
@@ -9,10 +10,12 @@ interface AuthPageProps {
 }
 
 const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showRegistrationModal, setShowRegistrationModal] = useState(false);
   const { login } = useAuth();
   
   const [loginForm, setLoginForm] = useState({
@@ -85,10 +88,22 @@ const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
       setLoading(true);
       const response = await authApi.register(registerForm);
       
-      if (response.success && response.user && response.token) {
-        login(response.user, response.token);
-        toast.success(response.message);
-        onSuccess?.();
+      if (response.success && response.user) {
+        // Step 1: User registered successfully
+        // Step 2: Show popup that admin will contact soon
+        setShowRegistrationModal(true);
+        
+        // Step 3: Redirect to login after 3 seconds
+        setTimeout(() => {
+          setShowRegistrationModal(false);
+          setIsLogin(true);
+          setRegisterForm({
+            username: '',
+            password: '',
+            confirmPassword: '',
+          });
+          navigate('/login');
+        }, 3000);
       } else {
         toast.error(response.message || 'Registration failed');
       }
@@ -294,6 +309,29 @@ const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
           </p>
         </div>
       </div>
+
+      {/* Registration Success Modal */}
+      {showRegistrationModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>✨ Registration Successful!</h2>
+            </div>
+            <div className="modal-body">
+              <p>Thank you for registering!</p>
+              <p className="modal-highlight">
+                Admin will contact you soon to activate your account.
+              </p>
+              <p className="modal-secondary">
+                You will be redirected to the login page in a moment...
+              </p>
+            </div>
+            <div className="modal-loader">
+              <div className="spinner"></div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

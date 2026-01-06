@@ -1,6 +1,6 @@
 import { InvoiceItem, InvoiceParsingResponse } from '../types/invoice';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://43.204.130.122:3001';
 
 export const invoiceService = {
   async uploadPdf(file: File): Promise<InvoiceParsingResponse> {
