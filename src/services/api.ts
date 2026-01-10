@@ -31,6 +31,45 @@ const api = axios.create({
   timeout: 10000, // 10 second timeout for network requests
 });
 
+// Add request interceptor for debugging
+api.interceptors.request.use(
+  (config) => {
+    console.log('🚀 API Request:', {
+      method: config.method,
+      url: config.url,
+      baseURL: config.baseURL,
+      headers: config.headers
+    });
+    return config;
+  },
+  (error) => {
+    console.error('❌ API Request Error:', error);
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor for debugging
+api.interceptors.response.use(
+  (response) => {
+    console.log('✅ API Response:', {
+      status: response.status,
+      url: response.config.url,
+      data: response.data
+    });
+    return response;
+  },
+  (error) => {
+    console.error('❌ API Response Error:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message,
+      url: error.config?.url
+    });
+    return Promise.reject(error);
+  }
+);
+
 // Brand APIs
 export const brandApi = {
   getAll: async (): Promise<Brand[]> => {
